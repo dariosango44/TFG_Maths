@@ -1,0 +1,503 @@
+\chapter{Geometría del ritmo}
+\label{rythm_geometry}
+
+
+``Yo no tengo ritmo'', cantaban en la serie infantil Phineas y Ferb. Sin embargo, La realidad es que pocas cosas escapan a poseerlo. Rizando el rizo, incluso el silencio puede entenderse como el ritmo de la ausencia de sonido. Como se introdujo en la sección \ref{rythm}, el ritmo constituye uno de los cimientos de la expresión musical, representando una búsqueda humana constante por distribuir patrones de la forma más regular y significativa posible. Esta búsqueda de regularidad trasciende lo musical: desde los patrones de iluminación en farolas de autopistas hasta la programación de semáforos inteligentes, pasando por la fisión nuclear en aceleradores de partículas o la secuenciación de tratamientos médicos, subyace siempre un principio común: la distribución óptima de eventos discretos en el tiempo.
+
+En el centro de esta búsqueda matemática de regularidad encontramos a Euclides. Euclides estableció los postulados fundamentales que rigieron la geometría durante milenios. Además, en su obra \textit{Elementos} describió un algoritmo capaz de calcular el máximo común divisor (MCD) de dos números enteros. Dados $k, n \in \mathbb{Z}$ con $0 < k < n$, el algoritmo se define recursivamente como:
+
+\begin{center}
+\label{alg_euclides}
+    \fbox{
+      \begin{minipage}{0.7\linewidth}
+        \textbf{Algoritmo} \textsc{Euclides}($k, n$)
+        \vspace{1em} % Afegeix un espai vertical
+    
+        1. \textbf{if} $k = 0$ \textbf{then return} $n$ \\
+        2. \textbf{else return} \textsc{Euclides}($n \text{ mod } k, k$)
+      \end{minipage}
+    }  
+\end{center}
+Por ejemplo, para $k=4$ y $n=11$, el algoritmo sigue como $\textsc{Euclides}(4, 11)=\textsc{Euclides}(3, 4)=\textsc{Euclides}(1, 3)=\textsc{Euclides}(0, 1)=1$.\\
+
+La conexión entre este algoritmo milenario y la teoría musical emerge al reinterpretar su propósito.
+Dicha reinterpretación fue formalizada por Godfried Toussaint en 2004, \cite{ToussaintGeometry}, bajo el nombre de ``ritmos euclidianos'', demostrando que el mismo principio matemático subyacente al algoritmo de Euclides puede generar muchos de los ritmos más emblemáticos de diversas tradiciones musicales alrededor del mundo. Lo extraordinario reside en que, al aplicar el algoritmo no para hallar un divisor, sino para distribuir eventos, obtenemos patrones rítmicos de notable regularidad.
+
+En las secciones siguientes exploraremos el ritmo desde un prisma puramente matemático. Además, se profundizará en cómo el algoritmo de Bjorklund —desarrollado originalmente en el contexto de física de aceleradores de partículas— adapta y formaliza esta idea para la generación de ritmos. Además, intentaré responder al porqué de la aparición de  estos patrones ``euclidianos'' forma natural en músicas de culturas aparentemente inconexas, sugiriendo la existencia de principios matemáticos universales subyacentes a nuestra percepción rítmica.
+
+\section{El ritmo como objeto matemático}
+
+La idea de que patrones rítmicos fundamentales en la música del mundo entero —desde África hasta Cuba y los Balcanes— puedan ser generados por un simple principio matemático es el pilar de la teoría del ritmo euclidiano. Estos patrones no son aleatorios; exhiben una propiedad de ``uniformidad'' que los hace musicalmente coherentes y efectivos. En esta sección, formalizaremos qué es un ritmo, exploraremos sus diferentes representaciones matemáticas y se establecerán las bases para la presentación de ritmo euclidiano en la sección siguiente.
+
+\begin{definition}[Ritmo]
+\label{rythm_formal}
+Un \textit{\textbf{ritmo}} $\mathcal{R}$ de $k$ pulsos (acentos) en un ciclo de $n$ divisiones temporales es un subconjunto ordenado de $k$ elementos del conjunto de los enteros módulo n, $\mathbb{Z}_n$:
+\[
+\mathcal{R}=\{x_1,x_2,\ldots,x_k\}_n,\quad x_i\in\mathbb{Z}_n,\quad \forall i\in\{1,\ldots,k\}
+\]
+donde $k,n\in \mathbb{Z}\setminus\{0\}$ tales que $k\le n$. Para el análisis, se asume que los elementos están ordenados $0 \leq x_1 < x_2 < \dots < x_k < n$ y se establece, por convención, que el ritmo comienza en el primer pulso, es decir, $x_1 = 0$.
+\end{definition}
+
+
+Para analizar y construir los ritmos, es fundamental disponer de una notación precisa. Por ello, la definición formal de un ritmo como subconjunto de $\mathbb{Z}_n$ es la base para diversas representaciones y conceptos derivados que facilitan su análisis en distintos contextos. A lo largo de la musicología matemática, si se le puede llamar así, se han consolidado varios sistemas de representación, cada uno ofreciendo una perspectiva diferente del mismo patrón:
+\begin{enumerate}
+    \item[i)] \textbf{Notación binaria:} 
+    \\Vector $B = (b_0, b_1, \dots, b_{n-1})$ donde:
+    \[
+    b_i = \begin{cases}
+    1 & \text{si } i \in \mathcal{R} \\
+    0 & \text{en caso contrario}
+    \end{cases}
+    \]
+    Esta representación es fundamental para el procesamiento computacional y el análisis algebraico.
+    
+    \item[ii)]  \textbf{Sistema de Cajas de Unidad de Tiempo (TUBS):}
+    \\Secuencia visual de $n$ símbolos donde:
+    \[
+    [\times] \equiv \texttt{pulso}, \quad [\ \cdot\ ] \equiv \texttt{silencio}
+    \]
+    Desarrollado por musicólogos para transcribir patrones rítmicos complejos de forma intuitiva y culturalmente neutral.
+    
+    \item[iii)]  \textbf{Secuencia de intervalos (duraciones):}
+    \\Tupla $\mathcal{D} = (d_1, d_2, \dots, d_k)$ donde:
+    \[
+    d_i = (x_{i+1} - x_i) \mod n \quad \text{para } i = 1,\dots,k-1, \quad d_k = (x_1 - x_k) \mod n
+    \]
+    Esta representación captura la estructura métrica fundamental y es invariante bajo rotación (ideal para estudiar \textit{collares rítmicos}).
+    
+    \item[iv)]  \textbf{Representación poligonal:}
+    \\Inscripción en un $n$-ágono regular donde los vértices corresponden a las divisiones temporales y los pulsos forman un subpolígono de $k$ lados. Esta representación geométrica permite:
+    \begin{itemize}
+        \item[a)] Visualizar simetrías rotacionales y reflexivas
+        \item[b)] Calcular propiedades métricas (área, momento de inercia)
+        \item[c)] Analizar la distribución espacial de los pulsos
+    \end{itemize}
+
+\end{enumerate}
+
+\begin{observation}[Collares Rítmicos]
+Cuando analizamos la estructura fundamental de un ritmo, a menudo es deseable ignorar su punto de inicio. Dos ritmos se consideran instancias del mismo collar rítmico \textit{(rhythmic necklace)} si uno puede obtenerse a partir del otro mediante una rotación cíclica. Por ejemplo, en notación binaria, \texttt{[1100]} y \texttt{[1001]} pertenecen al mismo collar. La secuencia de intervalos es particularmente útil para estudiar collares, ya que es invariante bajo rotación (solo sus elementos se desplazan cíclicamente).
+\end{observation}
+
+\begin{example}[Análisis del ritmo Son]
+    \label{ex:clave_son}
+    El \textit{Son rythm}, patrón fundamental de la música afrocubana, corresponde a un ritmo de $k=5$ pulsos en un ciclo de $n=16$. Formalmente, se define como:
+    \[
+        \mathcal{R}_{\text{Son}} = \{0, 3, 6, 10, 12\}_{16}
+    \]
+    A continuación, se muestran algunas de sus representaciones:
+    \begin{itemize}
+        \item \textbf{TUBS:}
+        \[
+            [\times \cdot \cdot \times \cdot \cdot \times \cdot \cdot \cdot \times \cdot \times \cdot \cdot\ \cdot]
+        \]
+        \item \textbf{Vector Binario:}
+        \[
+            \texttt{[1001001000101000]}
+        \]
+        \item \textbf{Secuencia de Intervalos:}
+        \[
+            \mathcal{D}_{\text{Son}} = (3, 3, 4, 2, 4)
+        \]
+        \item \textbf{Escritura musical:} Ver Figura \ref{fig:son_compass}.
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_son_compas.png}
+            \caption{Compás \textit{Son rythm} escrito en notación musical.}
+            \label{fig:son_compass}
+        \end{figure}
+
+        \item \textbf{Representación Poligonal:} Ver Figura \ref{fig:poligono_son}.
+        
+        \begin{figure}[h!]
+            \centering
+            % \includegraphics[width=0.4\textwidth]{path/to/Son_image.png}
+            % Reemplaza la línea anterior con el código TikZ si quieres generarlo directamente
+            \centering
+            \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_clave_son.png}
+            \caption{Representación poligonal del \textit{Son rythm} ($k=5, n=16$).}
+            \label{fig:poligono_son}
+        \end{figure}
+    \end{itemize}
+\end{example}
+
+
+\section{Propiedades de un buen ritmo}
+\texttt{https://hal.science/hal-04579586v1/document}
+Página.4
+
+Tras establecer el formalismo necesario, se presentan a continuación un conjunto de propiedades geométricas y estructurales que tratan de cuantificar la ``calidad'' de un ritmo. De esta manera se pretende determinar el porqué de la prevalencia de unos patrones sobre otros en términos de uso en la música de forma global.
+
+\subsection{Regularidad}
+La \textit{regularidad} de un ritmo caracteriza cómo de bien distribuidos temporalmente se encuentran sus pulsos. Intuitivamente, un ritmo es más regular cuando sus pulsos están lo más equidistantes posible dentro del ciclo temporal.
+
+\begin{definition}[Regularidad]
+\label{def:regularidad}
+Dado un ritmo $\mathcal{R} = \{x_1, x_2, \ldots, x_k\}_n \subset \mathbb{Z}_n$, su \textit{\textbf{regularidad}} o \textit{uniformidad} se cuantifica mediante la medida de desviación del polígono regular ideal:
+\[
+\text{Regularidad($\mathcal{R}$)} = \frac{1}{k} \left| \sum_{j=1}^{k} e^{2\pi i\left( \frac{x_j}{n} - \frac{j}{k} \right)} \right|
+\]
+donde $i$ es la unidad imaginaria y $|\cdot|$ denota el módulo del número complejo. Esta fórmula mide la suma de las desviaciones angulares entre los pulsos del ritmo ($x_j/n$) y los vértices de un polígono regular ideal ($(j-1)/k$). Un valor cercano a 1 indica una alta regularidad.
+\end{definition}
+
+\begin{proposition}[Ritmos maximalmente regulares]
+Sea $\mathcal{R}$ un ritmo de $k$ pulsos en $n$ divisiones:
+\begin{enumerate}
+    \item Si $k$ divide a $n$, el ritmo maximalmente regular es el polígono regular.
+    \item Si $k$ no divide a $n$, el ritmo maximalmente regular es aquel que mejor aproxima al polígono regular.
+    \item Los ritmos que maximizan la regularidad coinciden con los \textit{ritmos euclidianos} $\mathcal{E}(k,n)$.
+\end{enumerate}
+\begin{proof}
+    
+\end{proof}
+\end{proposition}
+\begin{observation}[Implicaciones musicales]
+La regularidad no es simplemente una propiedad matemática abstracta. Ritmos con alta regularidad:
+\begin{itemize}
+    \item Son más fáciles de percibir y memorizar
+    \item Generan sensación de estabilidad y equilibrio
+    \item Facilitan la sincronización en ejecuciones grupales
+    \item Aparecen recurrentemente en tradiciones musicales diversas
+\end{itemize}
+La búsqueda de uniformidad puede considerarse un principio universal en la organización rítmica.
+
+\end{observation}
+
+\subsection{Balance}
+
+El \textit{balance} de un ritmo cuantifica cuán cerca se encuentra el centro de masas de su polígono asociado al centro del círculo. A diferencia de la uniformidad, que mide el espaciamiento temporal, el balance evalúa la simetría espacial global de la distribución de pulsos.
+
+\begin{definition}[Balance]
+\label{def:balance}
+Dado un ritmo $\mathcal{R} \subset \mathbb{Z}_n$, su \textit{\textbf{balance}} se define como:
+\[
+\text{Balance($\mathcal{R}$)} = 1 - \frac{1}{k} \left| \sum_{j=1}^{k} e^{2\pi i \frac{x_j}{n}} \right|
+\]
+donde $i$ es la unidad imaginaria y $|\cdot|$ denota el módulo del número complejo.
+\end{definition}
+
+\begin{observation}[Interpretación geométrica del balance]
+\label{obs:balance_interpretacion}
+La expresión $\sum_{j=1}^{k} e^{2\pi i x_j/n}$ representa la suma vectorial de las posiciones de los pulsos en el círculo unidad. Cuando esta suma es pequeña en módulo, el baricentro del polígono está cerca del centro, indicando alto balance. Un balance de 1 significa baricentro perfectamente centrado, mientras que 0 indica máxima descentralización.
+\end{observation}
+
+\begin{observation}[Implicaciones perceptuales del balance]
+Los ritmos con alto balance:
+\begin{itemize}
+    \item[i)] Generan sensación de estabilidad y equilibrio perceptual.
+    \item[ii)] Facilitan la orientación temporal dentro del ciclo rítmico.
+    \item[iii)] Son percibidos como más ``naturales'' y menos ``tensos''.
+    \item[iv)] Funcionan bien como patrones estructurales base.
+\end{itemize}
+\end{observation}
+
+\subsection{Área}
+
+El \textit{área} del polígono asociado a un ritmo cuantifica la dispersión espacial de sus pulsos. A mayor área, más dispersos están los pulsos en el círculo, generando patrones más ``abiertos'' y expansivos.
+
+\begin{definition}[Área del polígono rítmico]
+\label{def:area}
+Dado un ritmo $\mathcal{R}\subset \mathbb{Z}_n$ con secuencia de intervalos $\mathcal{D} = (d_1, d_2, \dots, d_k)$, el \textit{\textbf{área}} de su polígono asociado se define como:
+\[
+\text{Área($\mathcal{R}$)} = \frac{1}{2} \left| \sum_{j=1}^{k} \sin\left(2\pi \frac{d_j}{n}\right) \right|
+\]
+\end{definition}
+\begin{observation}
+Esta fórmula calcula el área del polígono formado por los pulsos inscritos en el círculo unidad. Cada término $\sin(2\pi d_j/n)$ corresponde al área del triángulo isósceles formado por dos pulsos consecutivos y el centro del círculo. La suma total representa el área del polígono completo.
+\end{observation}
+
+\subsection{Singularidad}
+
+La \textit{\textbf{singularidad}} caracteriza ritmos con un número par de pulsos que no presentan pares de acentos diametralmente opuestos, es decir, que no dividen el ciclo rítmico en dos subritmos de igual longitud.
+
+\begin{definition}[Singularidad]
+\label{def:singularidad}
+Para un ritmo $\mathcal{R} \subset \mathbb{Z}_n$ con $n$ par, la \textit{\textbf{z}} se define como:
+\[
+\text{Singularidad($\mathcal{R}$)} = 1 - \frac{1}{k} \left| \mathcal{R} \cap (\mathcal{R} + n/2) \right|
+\]
+donde $\mathcal{R} + n/2 = \{x_1 + n/2, \ldots, x_k + n/2\} \pmod n$ representa el ritmo desplazado temporalmente por la mitad de su longitud.
+\end{definition}
+
+\begin{observation}[Interpretación de la singularidad]
+La singularidad mide la proporción de acentos que no tienen un acento opuesto en el ciclo:
+\begin{itemize}
+    \item[i)] \textbf{Singularidad = 1}: Ningún acento tiene opuesto (máxima singularidad).
+    \item[ii)] \textbf{Singularidad = 0}: Todos los acentos tienen opuesto (mínima singularidad).
+    \item[iii)] \textbf{Valores intermedios}: Algunos acentos tienen opuestos, otros no.
+\end{itemize}
+Para $n$ impar, la singularidad no está definida, ya que no existe división exacta en mitades.
+\end{observation}
+
+\subsection{Clausura}
+La \textit{clausura} cuantifica hasta qué punto el último acento del patrón cae sobre un tiempo métricamente fuerte. Sirve para generalizar el concepto de resolución métrica en estructuras métricas.
+
+
+\begin{definition}[Órbita de un pulso]
+\label{def:orbita}
+Dado un pulso $x \in \mathbb{Z}_n$, su \textit{\textbf{órbita}} se define como:
+\[
+\text{Orb}(x) = \{x \cdot y \mod n \mid y \in \mathbb{Z}_n\}
+\]
+El tamaño de la órbita indica la ``fuerza métrica'' del pulso:
+\begin{itemize}
+    \item[i)] Órbitas pequeñas: Corresponden a pulsos métricamente fuertes (ej: tiempos fuertes)
+    \item[ii)] Órbitas grandes: Corresponden a pulsos métricamente débiles (ej: subdivisiones)
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Clausura]
+\label{def:clausura}
+Dado un ritmo $\mathcal{R} \subset \mathbb{Z}_n$ ordenado por altura, la \textit{\textbf{clausura}} se define como:
+\[
+\text{Clausura($\mathcal{R}$)} = 1 - \frac{1}{n} \left| \text{Orb}(x_k) \right|
+\]
+donde $x_k$ es el último pulso del ritmo.
+\end{definition}
+
+\subsection{Apertura}
+
+La \textit{\textbf{apertura}} de un ritmo cuantifica hasta qué punto el segundo acento del patrón recae sobre un tiempo métricamente débil. Esta propiedad, inspirada en la clausura pero con efecto opuesto, mide la tensión inicial generada al comienzo del ciclo rítmico.
+
+\begin{definition}[Apertura]
+\label{def:apertura}
+Dado un ritmo $\mathcal{R}  \subset \mathbb{Z}_n$ ordenado por altura, la \textit{apertura} se define como:
+\[
+\text{Apertura($\mathcal{R}$)} = \frac{1}{n} \left| \text{Orb}(x_2) \right|
+\]
+donde $x_2$ es el segundo pulso del ritmo y $\text{Orb}(x)$ se define como en la Definición \ref{def:orbita}.
+\end{definition}
+
+
+\subsection{Simetría}
+La \textit{simetría} de un ritmo describe la invarianza de su patrón bajo transformaciones geométricas, específicamente la reflexión. Un ritmo simétrico es aquel que es idéntico a su ``versión retrógrada'' (leído hacia atrás).
+
+\begin{definition}[Simetría]
+    \label{def:simetria}
+    La \textbf{\textit{simetría}} de un ritmo $\mathcal{R}$ cuantifica la máxima proporción de pulsos que coinciden con su reflexión a través de todos los posibles ejes de simetría del círculo. Se calcula con la siguiente fórmula:
+    \[
+        \text{Simetría}(\mathcal{R}) = \max_{0 \leq j < n} \left( \frac{1}{k} \left| \mathcal{S}_j(\mathcal{R}) \cap \mathcal{R} \right| \right)
+    \]
+    donde:
+    \begin{itemize}
+        \item[i)] $\mathcal{S}_j(\mathcal{R}) = \{ (j - x) \pmod n \mid x \in \mathcal{R} \}$ es la reflexión del ritmo $\mathcal{R}$ con respecto al eje que pasa por el centro y el punto medio del arco entre $0$ y $j/n$.
+        \item[ii)] $|\mathcal{S}_j(\mathcal{R}) \cap \mathcal{R}|$ es el número de pulsos que son comunes entre el ritmo original y su reflexión a través del eje definido por $j$.
+        \item[(iii)] $\max_{0 \leq j < n}$ busca el eje de simetría que maximiza esta coincidencia.
+    \end{itemize}
+\end{definition}
+
+\subsection{Fractal}
+La auto-similaridad, también conocida como propiedad fractal, caracteriza hasta qué punto un ritmo contiene versiones escaladas de sí mismo. Mide si la lógica estructural del patrón se repite a diferentes escalas temporales, creando una sensación de coherencia profunda y orgánica.
+
+\begin{definition}[Auto-similaridad]
+    Un ritmo $\mathcal{R}$ es \textbf{\textit{auto-similar}} si existe un subconjunto de sus pulsos, $\mathcal{R}' \subseteq \mathcal{R}$, y un factor de dilatación entero $l \geq 2$, tal que la versión dilatada de $\mathcal{R}'$, denotada como $l\mathcal{R}' = \{ (l \cdot x) \pmod n \mid x \in \mathcal{R}' \}$, también está contenida en el ritmo original, es decir, $l\mathcal{R}' \subseteq \mathcal{R}$.
+\end{definition}
+
+Para cuantificar esta propiedad, se busca la relación de auto-similaridad que logre explicar la mayor proporción posible de los pulsos del ritmo.
+
+\begin{definition}[Cuantificación de la Auto-similaridad]
+    \label{def:fractal}
+    La medida de auto-similaridad de un ritmo $\mathcal{R}$ se define como:
+    \[
+        \text{Fractal}(\mathcal{R}) = \frac{1}{k} \max_{\substack{\mathcal{R}' \subseteq \mathcal{R}/l,\ l\mathcal{R}' \subseteq \mathcal{R}}} \left| \mathcal{R}' \lor l\mathcal{R}' \right|
+    \]
+    donde:
+    \begin{itemize}
+        \item[(i)] Se maximiza sobre todas las elecciones posibles de un sub-ritmo $\mathcal{R}'$ y un factor de dilatación $l$.
+        \item[(ii)] $|\mathcal{R}' \lor l\mathcal{R}'|$ cuenta el número total de pulsos únicos que participan en la mejor relación de auto-similaridad encontrada.
+        \item[(iii)] El factor $1/k$ normaliza el resultado, de modo que un valor de 1 indica una auto-similaridad perfecta, donde todos los pulsos del ritmo pueden ser explicados por una única relación fractal.
+    \end{itemize}
+\end{definition}
+
+
+
+\subsection{Generación de buenos ritmos}
+
+En la presente sección se pretende hacer un pequeño estudio de cuatro ejemplos de ritmos a través del cálculo de sus propiedades, \ref{tab:properties_rythms}. Por su parte, en la figura \ref{tab:rythms_polygons} se muestran las representaciones poligonales de cada uno de los ritmos. 
+
+En particular, el análisis cuantitativo de los ritmos presentados revela una especie de paradoja en la estructura del corazón rítmico. A pesar de su elevada \textit{regularidad}, que los sitúa como distribuciones temporales casi perfectas, su carácter sincopado no proviene del desorden, sino de una tensión estructural deliberada. Esta tensión se manifiesta a través de dos propiedades maximizadas en todos los casos: una \textit{apertura} de $1.00$, que genera un desequilibrio inicial al situar el segundo pulso en una posición métricamente débil, y una \textit{singularidad} también de $1.00$, que evita la simetría binaria simple al garantizar que ningún pulso tenga un opuesto diametral. Adicionalmente, su profunda coherencia estructural se confirma con una \textit{fractalidad} casi perfecta, indicando una arquitectura interna elegante y auto-referencial.
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{
+
+    \begin{tabular}{cccc}
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_clave_son.png}& 
+         \includegraphics[width=0.26\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_bossa_nova.png}& 
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_tresillo.png}& 
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_samba.png}
+    \end{tabular}
+    }
+    \caption{Representación poligonal de los ritmos: \textit{Son}, \textit{Bossa Nova}, \textit{Tresillo} y \textit{Samba} respectivamente.}
+    \label{tab:rythms_polygons}
+\end{table}
+
+
+Es en la propiedad de la \textit{clausura} donde las personalidades distintivas de cada ritmo aparecen con mayor claridad. La \textit{Bossa Nova}, con una clausura nula ($0.00$), se caracteriza por su cualidad etérea y sin resolver, terminando en el punto métricamente más inestable para crear una sensación flotante. En el extremo opuesto, el \textit{Son} ($0.75$) proyecta una sensación de solidez y dirección al concluir en un pulso métricamente fuerte, asentando el patrón con autoridad. El \textit{Tresillo} ($0.50$), célula rítmica fundamental, y la \textit{Samba} ($0.50$), de mayor densidad, ocupan un punto intermedio, ofreciendo una resolución moderada. De este modo, las métricas no solo cuantifican, sino que perfilan el carácter funcional y estético de cada patrón, revelando la sofisticada ingeniería matemática que subyace al carácter de cada forma rítmica.
+
+
+
+\begin{table}[h!]
+    \centering
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{|c||cccc|}
+
+         \cline{2-5}
+          & \texttt{\textbf{Son}}  & \texttt{\textbf{Bossa Nova}}  & \texttt{\textbf{Tresillo}} & \texttt{\textbf{Samba}}   \\
+         \hline
+         \textbf{Representación} & $\{0, 3, 6,10,12\}_{16}$ & $\{0, 3, 6,10,13\}_{16}$ &$\{0, 3, 6\}_8$ & $\{0, 3, 5, 7, 10, 12, 14\}_{16}$ \\
+         \hline
+         \textbf{Regularidad} & $0.9877$ & $0.9938$ & $0.9773$ & $0.9937$ \\
+         \hline
+
+         \textbf{Balance} & $0.9835$ & $0.9298$ & $0.8619$ & $0.9716$ \\
+         \hline
+         
+         \textbf{Área} & $2.2774$ & $2.3478$ & $1.2071$ & $2.3478$ \\
+         \hline
+
+         \textbf{Singularidad} & $1.00$ & $1.00$ & $1.00$ & $1.00$  \\
+         \hline
+
+         \textbf{Clausura} & $0.75$ & $0.00$ & $0.50$ & $0.50$ \\
+         \hline
+
+         \textbf{Apertura} & $1.00$ & $1.00$ & $1.00$ & $1.00$\\
+         \hline
+
+         \textbf{Simetría} &$1.00$  &  $1.00$ & $1.00$ & $1.00$  \\
+         \hline
+         
+         \textbf{Fractal} & $0.80$ & $1.00$ & $1.00$ & $0.8571$  \\
+         \hline
+
+    \end{tabular}
+    }
+    \caption{Cálculo de  propiedades para ritmos conocidos. \texttt{/Users/dariosango44/Downloads/TFG Mates/python_tfg/fourier.py}}
+    \label{tab:properties_rythms}
+\end{table}
+
+
+\section{Ritmo euclidiano}
+
+Los ejemplos vistos anteriormente revelan que patrones como \textit{clave son}, la \textit{Bossa Nova}..., no son aleatorios. Exhiben una propiedad de ``uniformidad'' que los hace musicalmente coherentes y efectivos. Sus pulsos no están ni demasiado agrupados ni perfectamente espaciados. ¿Cómo podemos definir matemáticamente esta propiedad de ``buena distribución''?
+
+La respuesta se encuentra en el concepto de ritmos euclidianos, que logran transformar el cálculo del máximo común divisor en un método, como digo, para generar patrones distribuidos de máxima regularidad. \ref{} %%% Bibliografía.
+
+
+\begin{definition}[Ritmo euclidiano]
+    Un \textbf{\textit{ritmo euclidiano}}, denotado como $\mathcal{E}(k,n)$, es una secuencia binaria de longitud $n$ que distribuye $k$ pulsos (acentos) de la forma más regular posible dentro de las $n$
+     divisiones temporales. Esta propiedad de ``máxima uniformidad'' (\textit{maximally even}) implica que las longitudes de los silencios entre pulsos consecutivos son lo más parecidas posible, resultando en, como máximo, dos longitudes de intervalo distintas.
+ \end{definition}
+
+El método para generar estos ritmos fue propuesto por el investigador sueco David Bjorklund en el contexto de la física de partículas, y posteriormente adaptado por Toussaint para la musicología.
+
+\begin{definition}[Algoritmo de Bjorklund]
+\label{def:bjorklund}
+El algoritmo de Bjorklund es un procedimiento recursivo que distribuye $k$ pulsos en $n$ ranuras. Se basa en el principio de ``divide y vencerás'', análogo al algoritmo de Euclides.
+\begin{enumerate}
+    \item Se inicia con $k$ secuencias que contienen un pulso, \texttt{[1]}, y $n-k$ secuencias que contienen un silencio, \texttt{[0]}.
+    \item En cada paso, se toma el grupo más pequeño de secuencias y se añade al final de cada secuencia del grupo más grande, una por una.
+    \item Este proceso se repite hasta que solo quede un grupo de secuencias de silencios (o ninguno), momento en el cual se concatenan todas las secuencias de pulsos para formar el ritmo final.
+\end{enumerate}
+\end{definition}
+
+\begin{observation}[Complejidad del Algoritmo]
+El algoritmo de Bjorklund tiene complejidad $\mathcal{O}(\log(\min(k, n-k)))$, análoga 
+al algoritmo de Euclides, garantizando eficiencia incluso para valores grandes 
+de $n$ y $k$.
+\end{observation}
+
+\begin{example}[Algoritmo de Bjorklund]
+
+A continuación, se propone un ejemplo de aplicación del algoritmo de Bjorklund, para generar el ritmo euclidiano de $k=6$ y $n=13$, $\mathcal{E}(6,13)$. Posteriormente se expone el funcionamiento del método de Bjorklund mediante la presentación del algoritmo en pseudocódigo.
+
+\begin{enumerate}
+    \item[(1)] \texttt{[1][1][1][1][1][1]} \quad \quad \texttt{[0][0][0][0][0][0][0]}
+    \item[(2)] \texttt{[10][10][10][10][10][10]} \quad \quad \texttt{[0]}
+    \item[(3)] \texttt{[100][10][10][10][10][10]} 
+    \item[(4)] \texttt{[1001010101010]} 
+\end{enumerate}
+
+En consecuencia, se ha generado un ritmo euclidiano que consta de $6$ pulsos y $7$ silencios. Para relacionar este proceso con el algoritmo de Euclides que señalábamos anteriormente, a través de las diferentes iteraciones que se realizan para colocar los \texttt{[0]}'s, observemos que:
+\[
+\textsc{Euclides}(6, 13)\overset{(1)}{=}\textsc{Euclides}(6, 7)\overset{(2)}{=}\textsc{Euclides}(1, 6)\overset{(3)}{=}\textsc{Euclides}(0, 1)=1
+\]
+
+El problema se inicia con $6$ secuencias de pulsos y $7$ de silencios, análogo al problema euclidiano de mcd$(7, 6)$. El primer paso de Euclides, $7 = 1 \cdot 6 + 1$, indica un cociente de 1 y un resto de 1. El algoritmo de Bjorklund refleja esto a la perfección: empareja cada uno de los 6 pulsos con un silencio (cociente 1), formando 6 nuevos bloques \texttt{[10]} y dejando un único bloque de silencio, \texttt{[0]}, como resto $1$. El subproblema se convierte entonces en distribuir este resto entre los 6 nuevos bloques, de la misma forma que el algoritmo de Euclides continúa con los números $6$ y $1$.
+De este modo, la máxima uniformidad del ritmo euclidiano no es una coincidencia, sino la consecuencia directa de aplicar el método matemático más eficiente para la división y la conmensurabilidad. El patrón resultante, con sus características dos longitudes de intervalo, es la huella geométrica del proceso de cálculo del máximo común divisor, revelando que un ritmo musicalmente fundamental puede ser, en realidad, una solución a un problema matemático clásico.
+
+% Utiliza este bloque en tu documento LaTeX.
+% Asegúrate de tener \usepackage{algorithm} y \usepackage[noend]{algpseudocode} en el preámbulo.
+
+\begin{center}
+\label{alg_bjorklund}
+    \fbox{
+      \begin{minipage}{0.7\linewidth}
+        \textbf{Algoritmo} \textsc{Bjorklund} $\mathcal{E}$($k, n$)
+        \vspace{1em} % Afegeix un espai vertical
+    
+               1. \textbf{if} $k = 0$ \textbf{then return} $\{\underbrace{0, 0, \dots, 0}_{n \text{ veces}}\}$ \\
+    2. \textbf{if} $k > n$ \textbf{then return} $\{\underbrace{1, 1, \dots, 1}_{n \text{ veces}}\}$ \\
+    3. $q \leftarrow \lfloor n / k \rfloor$ \\
+    4. $r \leftarrow n \mod k$ \\
+    5. $\text{patrón}_A \leftarrow \{\underbrace{[1, \underbrace{0, 0, \dots, 0}_{q-1 \text{ ceros}}]}_{k \text{ bloques}}\}$ \\
+    6. $\text{patrón}_B \leftarrow \{\underbrace{[1, \underbrace{0, 0, \dots, 0}_{q \text{ ceros}}]}_{r \text{ bloques}}\}$ \\
+    7. \textbf{while} $r > 0$ \textbf{do} \\
+    8. \quad $\text{minLen} \leftarrow \min(k, r)$ \\
+    9. \quad $\text{nuevoPatrón} \leftarrow [ \ ]$ \\
+    10. \quad \textbf{for} $i \leftarrow 0$ \textbf{to} $\text{minLen}-1$ \textbf{do} \\
+    11. \quad\quad $\text{nuevoPatrón}.\text{append}(\text{patrón}_A[i] + \text{patrón}_B[i])$ \\
+    12. \quad \textbf{if} $k > r$ \textbf{then} \\
+    13. \quad\quad $\text{patrón}_B \leftarrow \text{patrón}_A[\text{minLen} \dots \text{fin}]$ \\
+    14. \quad \textbf{else} \\
+    15. \quad\quad $\text{patrón}_B \leftarrow \text{patrón}_B[\text{minLen} \dots \text{fin}]$ \\
+    16. \quad $\text{patrón}_A \leftarrow \text{nuevoPatrón}$ \\
+    17. \quad $k \leftarrow \text{minLen}$ \\
+    18. \quad $r \leftarrow |\text{patrón}_B|$ \\
+    19. \textbf{return} $\text{patrón}_A$
+      \end{minipage}
+    }  
+\end{center}
+
+El ritmo euclidiano $\mathcal{E}(6,13)$ se puede representar, a parte de como cadena de \texttt{[0]}'s y \texttt{[1]}'s, de forma visual a través de su representación poligonal, que se observa en la figura \ref{fig:euclidean(6,13)}. Igualmente, 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/rythms/img_euclidean613.png}
+    \caption{Representación del ritmo euclidiano $\mathcal{E}(6,13)$.}
+    \label{fig:euclidean(6,13)}
+\end{figure}
+\end{example}
+
+
+
+\begin{theorem}[Propiedad Fundamental de los Ritmos Euclidianos]
+\label{th:propiedad_ritmos_euclidianos}
+Un ritmo euclidiano $\mathcal{E}(k,n)$ generado mediante el algoritmo de Bjorklund posee, como máximo, dos longitudes de intervalo distintas en su secuencia de distancias.
+\end{theorem}
+
+% EN LUGAR DE la "pseudodemostración":
+\begin{proof}[Esbozo de la demostración]
+La clave reside en que el algoritmo de Bjorklund es isomorfo al algoritmo de Euclides. En cada paso, se tienen dos ``tipos'' de bloques (de longitudes $\ell$ y $\ell+1$). La recursión garantiza que:
+\begin{enumerate}
+    \item Solo se manejan dos longitudes en cada paso
+    \item La combinación de bloques preserva esta propiedad
+    \item El proceso termina con a lo sumo dos longitudes distintas
+\end{enumerate}
+La correspondencia con el algoritmo de Euclides para $\mathrm{mcd}(k,n-k)$ asegura la corrección.
+\end{proof}
+
+\begin{observation}[Relación con el Teorema de los Tres Pasos]
+Esta propiedad de los dos intervalos es la manifestación en un sistema discreto de un resultado más general conocido como el Teorema de los Tres Pasos, \ref{th3steps}. Dicho teorema, formulado para un espacio continuo, establece que al marcar múltiplos de un generador irracional en un círculo, las distancias entre puntos consecutivos solo pueden tener, como máximo, tres valores. El algoritmo de Bjorklund, al ser una implementación del algoritmo de Euclides para enteros, produce una estructura tan regular que el resultado se restringe a solo dos valores, convirtiéndolo en un caso especial y altamente estructurado.
+\end{observation}
+
+
+
+
+
+\section{Polirritmia}
+
+
+
+

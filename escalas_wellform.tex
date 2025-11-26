@@ -1,0 +1,464 @@
+\chapter{Escalas bien formadas}
+\label{chap:bien_formadas}
+
+Durante el capítulo anterior se ha recorrido la historia de la afinación como una serie de soluciones ingeniosas a problemas prácticos. Desde la pureza melódica de las quintas pitagóricas hasta el compromiso funcional del temperamento igual, cada sistema buscaba optimizar la consonancia y la flexibilidad dentro de las limitaciones de su época. Sin embargo, este recorrido histórico nos deja una pregunta más profunda y fundamental: más allá de las soluciones específicas, ¿existen propiedades matemáticas subyacentes que hagan que ciertas estructuras de escalas, como la diatónica, sean tan musicalmente satisfactorias y persistentes a lo largo de la historia?
+
+Para dar respuesta a esta pregunta, debemos dar un paso atrás y pasar de la aritmética de los intervalos a la geometría de las estructuras. El presente capítulo se adentra en la teoría  de las escalas musicales, un campo donde la teoría de números, los sistemas dinámicos y la geometría convergen para desvelar los principios que gobiernan la construcción de escalas coherentes. Dejaremos de preguntar ''cómo se afina'' una escala para preguntar ''qué es'' una escala desde un punto de vista abstracto y general.
+El primer paso será modelizar cualquier escala musical, reescribiendo la caracterización del apartado \ref{intro_scales}. Al considerar la octava como la unidad fundamental que se repite, se normalizará el espacio de frecuencias y se representará geométricamente como un círculo. En este modelo, las notas de una escala se convierten en un conjunto de puntos distribuidos sobre la circunferencia.
+
+A lo largo del capítulo siguiente nos centraremos en un tipo de escala de particular importancia: las escalas generadas, aquellas que se construyen a partir de la repetición de un único intervalo. Igualemente, se explorarán sus propiedades a través del \textit{Teorema de los Tres Pasos}, que demuestra que cualquier escala generada de esta manera tendrá, como máximo, tres tamaños de intervalos diferentes entre sus notas consecutivas.
+
+Finalmente, nos concentraremos en el caso más relevante para la música occidental: las escalas que poseen solo dos tamaños de intervalo. Definiremos estas estructuras como \textit{escalas bien formadas} y ahondaremos en las caracterizaciones de este tipo de escalas que conectan con nociones matemáticas tales como desarrollos en fracción continua, líneas poligonales estrelladas regulares inscritas en circunferencias...
+
+\section{Modelización de una escala}
+\label{sec:modelizacion_escala}
+En el apartado \ref{intro_scales}, dedicado a las escalas del primer capítulo de este trabajo, se ha introducido una noción de escala que sirve como complemento a las ideas que se exponen a continuación.
+
+De entre toda posible gama continua de frecuencias, normalmente nos limitamos a un conjunto discreto dentro de cada tesitura --rango de alturas propio de cada voz o instrumento--. Por tanto, cuando se acota el área de trabajo se está determinando una escala. 
+
+Como ya vimos, una nota de frecuencia $f$ tiene por octava superior una de frecuencia $2f$ y en términos musicales, cuando ambas notas suenan simultáneamente es difícil diferenciarlas. Esto se expresa diciendo que el intervalo $2\in\mathbb{R}^+$ es el altamente \textit{consonante} y se puede modelizar como el subgrupo $\langle2 \rangle\subset \mathbb{R}^+$ de las octavas, 
+\[
+    \langle2 \rangle=\{2^n:n\in\mathbb{Z}\}
+\]
+Este subgrupo establece una relación de equivalencia sobre el conjunto de frecuencias $\mathcal{F}:f\sim f' \Longleftrightarrow f=2^nf'$ para algún $n\in\mathbb{Z}$ y donde $f$ y $f'$ determinan la misma nota en distintas octavas.
+\begin{definition}
+Se denomina \textit{\textbf{octava}} $\mathcal{O}$ al conjunto cociente $\mathcal{F}/\langle2 \rangle$. Los elementos de $\mathcal{O}$ se correponden con las \textit{\textbf{notas musicales}} (o \textit{clases de altura}).
+\end{definition}
+    
+ Fijando una frecuencia $f_0 \in \mathcal{F}$, el conjunto de frecuencias $\mathcal{F}$ se puede identificar con el conjunto de intervalos $\mathbb{R}^+$ mediante el morfismo de grupos siguiente:
+ \begin{align*}
+    \mathcal{F} &\xlongrightarrow{\phi} \mathbb{R}^+\\
+    f&\longmapsto f/f_0
+ \end{align*}   
+A través de este morfismo se asigna a cada frecuencia $f\in\mathcal{F}$ la distancia en forma de \textit{intervalo} que lo separa de $f_0$.
+
+El siguiente y último paso para perfeccionar nuestro modelo es cambiar la operación matemática para que sea más intuitiva. Musicalmente,``encadenar'' intervalos corresponde a una multiplicación de sus razones. Para simplificar el análisis, se transforma esta operación multiplicativa en una aditiva. Por ello, se emplea el morfismo de grupos $\log_2$ entre el grupo multiplicativo de los intervalos, $(\mathbb{R}^+,\cdot)$, en el grupo aditivo de los números reales $(\mathbb{R},+)$.
+\[
+\log_2:(\mathbb{R}^+,\cdot)\longrightarrow(\mathbb{R},+)
+\]
+En este nuevo codominio el intervalo de octava se convierte en la unidad, $\log_2(2)=1$, y la equivalencia de octavas se traduce en una equivalencia bajo la suma de enteros.
+\[
+\log_2(f)\sim\log_2(2f)=\log_2(2)+\log_2(f)=1+\log_2(f)
+\]
+Esto significa que el espacio de todas las notas es isomorfo al grupo cociente $\mathbb{R}/\mathbb{Z}$, que se puede representar geométricamente como un círculo de circunferencia 1. En este modelo final, cada nota corresponde a un punto en el círculo, y la distancia angular entre dos puntos representa el tamaño del intervalo entre ellos.
+
+Todos los cálculos entre morfismos de grupos se resumen en el diagrama conmutativo \ref{fig:diagram_cicle}.
+\begin{figure}[h!]
+    \centering
+    \[
+    \xymatrix{ 
+    \ar@{}[dr]|{\circlearrowright}
+    \mathcal{F} \ar[r]^{\phi} \ar[d] & 
+    \mathbb{R}^+ \ar[r]^{\log_2}  \ar[d] & 
+    \mathbb{R} \ar[d]^{\pi}  \\ 
+    \mathcal{F}/\langle2\rangle \ar[r] & 
+    \mathbb{R}^+/\langle2\rangle  \ar[r]^{\log_2} & 
+    \mathbb{R}/\mathbb{Z}
+    \ar@{}[ul]|{\circlearrowright}\\ 
+    }
+    \]
+    \caption{Diagrama conmutativo que ilustra la construcción del espacio de notas como un círculo. Las flechas verticales representan las proyecciones al cociente, y las horizontales, las transformaciones entre los distintos modelos.}
+    \label{fig:diagram_cicle}
+\end{figure}
+
+
+\begin{example}
+Se establece como frecuencia fundamental $f_0 = 440$ Hz (correspondiente a $la_4$). Se pretende encontrar la posición angular en el círculo para la nota $mi$ en la escala pitagórica.\\
+
+En la escala pitagórica, el intervalo de quinta justa tiene una razón de frecuencias de $\frac{3}{2}$. Partiendo de $la_4$, la quinta justa superior es $mi_5$. Sin embargo, en el modelo del círculo $\mathbb{R}/\mathbb{Z}$, todas las octavas se identifican, por lo que la clase de altura de $mi_5$ coincide con la de $mi_4$.
+
+Aplicando la cadena de morfismos:
+\[
+(\pi \circ \log_2 \circ\ \phi)(f_{mi}) = \pi\left( \log_2\left(\frac{3}{2}\right) \right) = \pi(\log_2(3) - 1) \approx \pi(1.58496) = 0.58496
+\]
+Por tanto, partiendo de la tónica en la posición $0$ del círculo, la quinta justa se sitúa a una distancia angular de aproximadamente $0.585$, es decir, un poco más de la mitad del recorrido de la circunferencia.
+\end{example}
+
+\begin{observation}
+    El grupo $\mathbb{R}/\mathbb{Z}$ es el grupo cociente de los números reales $(\mathbb{R}, +)$ por el subgrupo de los enteros $(\mathbb{Z}, +)$. Esto significa que dos números reales $x,y\in\mathbb{R}$, $x\sim y\Longleftrightarrow x - y \in \mathbb{Z}$. La clase de equivalencia de $x$ se denota por $[x] = x + \mathbb{Z}$.
+
+    La proyección canónica $\pi$ es la aplicación que asigna a cada $x \in \mathbb{R}$ su clase de equivalencia $[x]$. 
+    \begin{align*}
+        \mathbb{R} &\xlongrightarrow{\pi} \mathbb{R}/\mathbb{Z}\\
+        x&\longmapsto [x]=\{y\in \mathbb{R}:x\sim y\}
+     \end{align*}   
+    Geométricamente, esta proyección ``enrolla'' la recta real en un círculo de $r=1$, donde cada punto del círculo representa una clase de equivalencia.
+    Se tiene, en notación topológica, que $\mathbb{S}^1$ y $\mathbb{R}/\mathbb{Z}$ son espacios homeomorfos, a través del homeomorfismo
+    \[
+    h:\mathbb{R}/\mathbb{Z}\longrightarrow\mathbb{S}^1, [x]\longmapsto h([x])=e^{2\pi ix}
+    \]
+\end{observation}
+Tras introducir esos conceptos, se procede a dar una caracterización formal del concepto de escala.
+
+\begin{definition}[Escala]
+    Se denomina \textit{\textbf{escala de $N$ notas}} a todo subconjunto ordenado $\Sigma$ de $N$ elementos de la circunferencia $\mathbb{R}/\mathbb{Z}$:
+    \[
+    \Sigma=\{0\leq x_0< x_1<\ldots<x_{N-1}<1\}\subset\mathbb{R}/\mathbb{Z}
+    \]
+    La distancia entre dos notas nucesivas, $x_{i+1}-x_i$ es lo que se conoce como \textit{paso}.
+\end{definition}
+
+De ahora en adelante se establece que la primera nota de cada escala se situa en el cero ($x_0=0$).
+
+\begin{example}[Escala de igual temperamento]
+Una \textit{\textbf{escala de igual temperamento de $N$ notas}} se correponde con la escala 
+\[
+\Sigma =\{0,\frac{1}{N},\frac{2}{N},\ldots,\frac{N-1}{N}\}.
+\]
+Las escalas temperadas se representan geométricamente mediante vértices de polígonos regulares inscritos en $\mathbb{R}/\mathbb{Z}$.
+\end{example}
+
+Como ya se ha mencionado, la \textit{octava}, que es el intervalo más consonante, permite pasar al grupo cociente e identificar sonidos \textit{módulo octavas}. Siguiendo esta idea, la \textit{quinta justa pura} se corresponde con el segundo intervalo más consonante y a través de su razón de frecuencias $\frac{3}{2}$ podemos construir una escala de múltiplos enteros de $\log_2\frac{3}{2}=\{\log_23\}$.
+
+\begin{example}[Escala musical pitagórica]
+Se define la escala musical pitagórica de $q$ notas, con $q\in\mathbb{N}$ y $q\geq2$ como el conjunto
+\[
+\text{EMP}(q)=\{0,\{\log_23\},\{2\log_23\},\ldots,\{(q-1)\log_23\}\}
+\]
+Además, por el teorema \ref{teorema_quintas}, ninguna escala generada por \textit{quintas} coincide con la escala de igual temperamento.
+\end{example}
+
+
+\texttt{https://www.maths.tcd.ie/pub/ims/bull35/bull35_24-41.pdf} Pàgina 31. Teorema xulet per a més històries d'escales ben formades.
+
+
+%% AQUí
+%% SERÍA CHULO AÑADIR 
+%% ALGUNAS IMÁGENES, no sñe de qué tipo, pero algo hay que hacer
+
+\section{Escalas generadas. Teorema de los 3 pasos}
+\label{sec:escalas-generadas}
+
+En la sección previa se han introducido algunos ejemplos de escalas que se generan mediante la repetición de un único intervalo. Retomando y generalizando la noción de \textit{escala pitagórica}, se presenta:
+
+\begin{definition}[Escala generada]
+    Se denomina \textit{\textbf{escala generada de $N$ notas y generador $\theta$}} al conjunto
+    \[
+    \Gamma(\theta,N) = \{\{k\theta\} : k = 0, 1, \ldots, N-1\},
+    \]
+    donde $\{x\}$ denota la parte fraccionaria de $x$. Geométricamente, los puntos de \(\Gamma(\theta, N)\) se sitúan en la circunferencia unidad (identificada con \(\mathbb{R}/\mathbb{Z}\)), y el proceso de generación equivale a rotar sucesivamente un ángulo de \(2\pi\theta\) radianes como se observa en la figura \ref{fig:2pi_scale}.
+\end{definition}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/img_2pi_scale.png}
+    \caption{El proceso de generación de una escala mediante rotaciones sucesivas de un ángulo $2\pi\theta$
+ puede visualizarse como el trazado de un polígono, que puede ser simple o estrellado.}
+    \label{fig:2pi_scale}
+\end{figure}
+Cuando se representa una escala generada en el círculo, los arcos entre notas consecutivas (los \textit{pasos}) toman como máximo tres longitudes distintas. Este resultado, conocido como la \textit{Conjetura de Steinhaus}, se formula musicalmente en el siguiente teorema.
+
+\begin{theorem}[de los tres pasos]
+    \label{th3steps}
+    Toda escala generada $\Gamma(\theta,N)$ tiene a lo sumo tres tamaños distintos de pasos.\\
+    \texttt{https://hal.science/hal-00090031v1/document}
+    
+    \begin{proof}
+        La prueba se basa en analizar la estructura de los pasos de la escala a partir de las notas más cercanas al origen. Sea $x_k = \{\{k\theta\} \mid k=0, \dots, N-1\}$ una escala generada, con $x_0 = 0$. Identificamos los dos intervalos fundamentales que se forman con respecto al origen.
+        
+        Sean $a, b \in \{1, \ldots, N-1\}$ tales que 
+        \begin{align*}
+            x_1 = \{a\theta\} &= \min_{1 \leq k \leq N-1} \{k\theta\}, \\
+            x_{N-1} = \{b\theta\} &= \max_{1 \leq k \leq N-1} \{k\theta\},
+        \end{align*}
+        de manera que $\alpha = \{a\theta\}$ y $\beta = 1 - \{b\theta\}$ son los pasos extremos de la escala.
+        
+        Estudiamos ahora la posición de $\{(a+b)\theta\}$. Consideramos dos casos:
+        \begin{itemize}
+            \item Si $\{a\theta\} + \{b\theta\} \leq 1$, entonces $\{b\theta\} < \{(a+b)\theta\} \leq 1$.
+            \item Si $\{a\theta\} + \{b\theta\} \geq 1$, entonces $0 \leq \{(a+b)\theta\} < \{a\theta\}$.
+        \end{itemize}
+        En ambos casos, el arco determinado por $x_{N-1}$ y $x_1$ contiene a $\{(a+b)\theta\}$.
+        
+        Calculamos ahora la longitud del intervalo entre dos notas arbitrarias $\{r\theta\} > \{s\theta\}$ de la escala:
+        \[
+        \{r\theta\} - \{s\theta\} = 
+        \begin{cases}
+            \{(r-s)\theta\} \geq \min\{k\theta\} = \alpha & \text{si } r > s, \\
+            1 - \{(s-r)\theta\} \geq 1 - \max\{k\theta\} = \beta & \text{si } s > r.
+        \end{cases}
+        \]
+        
+        En el primer caso, si $\{(r-s)\theta\} = \alpha$, entonces $\{r\theta\}$ y $\{s\theta\}$ son notas consecutivas. En efecto, si existiera $t \in \{1, \ldots, N-1\}$ tal que $\{r\theta\} > \{t\theta\} > \{s\theta\}$, entonces:
+        \begin{itemize}
+            \item Si $t > s$, se tendría $\{t\theta\} - \{s\theta\} = \{(t-s)\theta\} \geq \alpha$, contradiciendo la minimalidad de $\alpha$.
+            \item Si $t < s$, entonces $r > t$ y $\{(r-t)\theta\} \geq \alpha$, nuevamente una contradicción.
+        \end{itemize}
+        
+        Razonando de manera análoga se prueba que, si $1 - \{(s-r)\theta\} = \beta$, entonces $\{s\theta\}$ y $\{r\theta\}$ son notas consecutivas.
+        
+        De esto se deduce que hay $N-a$ pasos de longitud $\alpha$:
+        \[
+        \{(r+a)\theta\} - \{r\theta\} = \alpha \quad \text{para } r = 0, 1, \ldots, N-a-1,
+        \]
+        y $N-b$ pasos de longitud $\beta$:
+        \[
+        1 - \{b\theta\},\quad \{(r-b)\theta\} - \{r\theta\} = \beta \quad \text{para } r = b+1, \ldots, N-1.
+        \]
+        
+        Quedan por determinar $N - (N-a) - (N-b) = a + b - N$ pasos. Por definición, $\{(a+b)\theta\}$ no es una nota de la escala, por lo que $a + b \geq N$. Si $a + b = N$, todos los pasos son de longitud $\alpha$ o $\beta$.
+        
+        Supongamos ahora que $a + b > N$. Demostraremos que la longitud de los $a + b - N$ pasos restantes es $\alpha + \beta$.
+        
+        Estos pasos corresponden a las notas con índices $k \in \{N-a, N-a+1, \ldots, b-1\}$. Para cada tal $k$, consideremos el intervalo entre $\{k\theta\}$ y la siguiente nota en la escala.
+        
+        \begin{itemize}
+            \item Si $\nu > k$, dado que $\nu - k < N - (N-a) = a$, se tiene que
+            \[
+            \{\nu\theta\} - \{k\theta\} = \{(\nu-k)\theta\} > \alpha = \{a\theta\}.
+            \]
+            Más precisamente,
+            \[
+            \{(\nu-k)\theta\} = \{a\theta - (a-\nu+k)\theta\} = \{a\theta\} + 1 - \{(a-\nu+k)\theta\} \geq \alpha + \beta,
+            \]
+            y la igualdad se alcanza si y solo si $a - \nu + k = b$, es decir, $\nu = a + k - b$.
+            
+            \item Un razonamiento análogo conduce al mismo resultado si $k > \nu$.
+        \end{itemize}
+        
+        En resumen, para $k \in \{N-a, N-a+1, \ldots, b-1\}$, las notas $\{(k+a-b)\theta\}$ y $\{k\theta\}$ son consecutivas y el paso que determinan tiene longitud $\alpha + \beta$.
+    \end{proof}
+\end{theorem}
+
+\begin{observation}
+    Particularmente, si $\theta=\frac{p}{q}\in\mathbb{Q}$, mcd$(p,q)=1$  y $N\geq q$, se tiene exactamente un polígono regular, \textit{ergo} un único paso. Si $\theta\in\mathbb{I}$, la escala simpre tendrá dos o más pasos. Para distinguir el número de pasos de una escala se recurre a teoría de números por medio de las \textit{fracciones continuas}. Se verá a continuación.
+\end{observation}
+
+\begin{theorem}
+\label{th3steps_irr}
+    Dado $\theta\in(0,1)$ un número irracional, la sucesión de puntos de la circunferencia $e^{2\pi i\theta k},k=0,1,\ldots,N-1$, la divide en arcos de exactamente dos longitudes distintas si y sólo si $N$ es el denominador de un convergente o de un semiconvergente de $\theta$.
+\end{theorem}
+
+%%
+%%Revisar este EJEMPLO, QUE LO QUE COGIDO DE POR AHÍ y no lo entiendo mucho. Un saludo no, tres
+%%
+\begin{example}[La escala diatónica como caso particular]
+    El generador de la escala pitagórica es $\theta = \{\log_2 3\}$. La teoría de fracciones continuas establece que los denominadores de los convergentes de $\theta$ son $1, 2, 5, 7, 12, \ldots$. Como $N=7$ es uno de estos denominadores, el Teorema \ref{th3steps_irr} predice que la escala $\Gamma(\{\log_2 3\}, 7)$ tendrá exactamente dos tamaños de paso. Estos corresponden al tono y al semitono diatónico pitagórico, confirmando que la escala diatónica es un caso notable de este fenómeno.
+\end{example}
+
+%%% Creo que sí funciona porque el generador en realidad
+%%% es {π}, que sí está en (0,1).
+\begin{example}[Escala de 6 notas generada por $\pi$]
+    \[
+    \Gamma(\pi,6)=\{\{k\pi\},k\in\{0,\ldots,5\}\}=\{0,\{\pi\},\{2\pi\},\ldots,\{5\pi\}\}
+    \]
+    Para calcular los pasos, al encontrarnos en el círculo $\mathbb{R}/\mathbb{Z}$ se debe aplicar la operación $\mod 1$ (tomar la parte fraccionaria.) Entonces $\{k\pi\}= k\pi\ (\!\!\!\mod1)=k\pi-\lfloor k\pi\rfloor$ y la escala es
+    \[
+    \Gamma(\pi,6)=\{k\pi-\lfloor k\pi\rfloor,k\in\{0,\ldots,5\}\}
+    \]
+    \[
+    =\{0,\pi-\lfloor \pi\rfloor,2\pi-\lfloor 2\pi\rfloor,3\pi-\lfloor 3\pi\rfloor,4\pi-\lfloor 4\pi\rfloor,5\pi-\lfloor 5\pi\rfloor\}
+    \]
+    \[
+    \approx\{0,0.141592\ldots,0.283185\ldots,0.4247778\ldots,0.56636\ldots,0.70796\ldots\}
+    \]
+    En la tabla \ref{tab:escala_pi6} se observan las longitudes de paso. Se obtienen únicamente 2 diferentes, corroborando los teoremas \ref{th3steps} y \ref{th3steps_irr}. Habría que corroborar que $N=6$ es un denominador de un convergente o semiconvergente de $\theta=\{\pi\}$, pero se escapa de los objetivos del trabajo.
+    
+    Igualmente, la figura \ref{fig:scale_pi6} representa el polígono asociado a la escala $\Gamma(\pi,6)$, que por tener un \textit{intervalo generador} diferente de la quinta justa occidental, da lugar a una escala \textit{microtonal}.
+
+    \begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+    
+            \textbf{Notas ($x_i$)}& \textbf{Pasos ($x_{i+1}-x_i$)}  \\
+            \hline
+            \hline
+            $x_0=0$& $x_1-x_0=0.141592$ \\
+            \hline
+    
+            $x_1=0.141592$& $x_2-x_1=0.141592$ \\
+            \hline
+    
+            $x_2=0.283185$& $x_3-x_2=0.141592$ \\
+            \hline
+    
+            $x_3=0.4247778$& $x_4-x_3=0.141592$ \\
+            \hline
+    
+            $x_4=0.56636$& $x_5-x_4=0.141592$ \\
+            \hline
+            
+            $x_5=0.70796$& $1-x_5=0.29205$ \\
+            \hline
+    
+        \end{tabular}
+        \caption{$\Gamma(\pi,6)$}
+        \label{tab:escala_pi6}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.45\textwidth}
+\centering
+        \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/img_pi6.png}
+        \caption{Representación dual de $\Gamma(\pi,6)$. %Debido a que el generador $\{\pi\}\approx 0.1416$ es pequeño, el orden de generación ($k$) y el orden de altura ($x_i$) coinciden. Como resultado, el polígono de generación (morado) y el polígono escalar (naranja) son idénticos y se superponen perfectamente, formando un hexágono simple en lugar de una estrella.%}
+        }
+        \label{fig:scale_pi6}
+    \end{minipage}
+\end{figure}
+\end{example}
+
+\begin{example}[Escala de 7 notas generada por $\sqrt{3}$]
+\label{example_scale_sqrt37}
+    La escala se genera tomando la parte fraccionaria de los primeros múltiplos del número $\sqrt{3}$.
+    \[
+    \Gamma(\sqrt{3},7) = \{ \{k\sqrt{3}\} : k \in \{0, \ldots, 6\} \} = \{0, \{\sqrt{3}\}, \{2\sqrt{3}\}, \ldots, \{6\sqrt{3}\}\}
+    \]
+    Dado que trabajamos en el círculo $\mathbb{R}/\mathbb{Z}$, al tomar, como decíamos, la parte fraccionaria se está realizando la operación módulo 1. Así, para cada $k$, la nota es $\{k\sqrt{3}\} = k\sqrt{3} \pmod 1 = k\sqrt{3} - \lfloor k\sqrt{3} \rfloor$. La escala por orden de generación es:
+    \[
+    \Gamma(\sqrt{3},7) = \{k\sqrt{3} - \lfloor k\sqrt{3} \rfloor : k \in \{0, \ldots, 6\}\}=
+    \]
+    % Calculamos los valores aproximados para cada k
+    \[
+    = \{0, 0.732051, 0.464102, 0.196152, 0.928203, 0.660254, 0.392305\}
+    \]
+    En la tabla \ref{tab:escala_sqrt3_7} se observan las longitudes de paso entre notas consecutivas una vez ordenadas. Se obtienen dos tamaños de paso distintos, lo que concuerda nuevamente con las predicciones de los teoremas \ref{th3steps} y \ref{th3steps_irr}. Esto se debe a que $N=7$ es el denominador de uno de los convergentes de la fracción continua que representa a $\{\sqrt{3}\}$. 
+    
+    %%% +++++ CÁLCULO EXPLÍCITO DE CONVERGENTE o SEMICONVERGENTE +++++
+    
+    La justificación teórica es la siguiente: el generador es $\theta = \{\sqrt{3}\} \approx 0.732$, cuya fracción continua es $[0; 1, 2, 1, 2, \ldots]$. Los denominadores de sus convergentes son, al calcularse, $1, 1, 3, 4, 11, \ldots$ Aunque $N=7$ no es un denominador de un convergente, sí es el denominador de un \textit{semiconvergente}, concretamente el que se forma entre $\frac{3}{4}$ y $\frac{8}{11}$. Por tanto, la teoría predice correctamente que la escala tendrá solo dos longitudes de paso, como se comprueba numéricamente.
+\end{example}
+
+
+\begin{figure}[h!]
+    \centering
+    \begin{minipage}{0.45\textwidth}
+        \centering
+        \begin{tabular}{|c|c|}
+            \hline
+            \textbf{Notas ($x_i$)}& \textbf{Pasos ($x_{i+1}-x_i$)}  \\
+            \hline
+            \hline
+            $x_0=0$         & $x_1-x_0 \approx 0.19615$ \\
+            \hline
+            $x_1=0.19615$   & $x_2-x_1 \approx 0.19615$ \\
+            \hline
+            $x_2=0.39230$   & $x_3-x_2 \approx 0.07180$ \\
+            \hline
+            $x_3=0.46410$   & $x_4-x_3 \approx 0.19615$ \\
+            \hline
+            $x_4=0.66025$   & $x_5-x_4 \approx 0.07180$ \\
+            \hline
+            $x_5=0.73205$   & $x_6-x_5 \approx 0.19615$ \\
+            \hline
+            $x_6=0.92820$   & $1-x_6   \approx 0.07180$ \\
+            \hline
+        \end{tabular}
+        \caption{Notas ordenadas e intervalos de la escala $\Gamma(\sqrt{3},7)$.}
+        \label{tab:escala_sqrt3_7}
+    \end{minipage}
+    
+\end{figure}
+    
+\section{Escalas bien formadas}
+\label{sec:escalas-bien-formadas}
+
+Para concluir la sección trataré de dar forma a uno de los conceptos centrales asociados a la teoría de escalas: las escalas bien formadas (\textit{well-formed scales}). Introducidas por Norman Carey y David Clampitt, este marco teórico permite caracterizar de forma abstracta las propiedades estructurales que comparten las escalas diatónicas empleadas a lo largo de la historia de la música. Se emplea como ejemplo paradigmático la escala pitagórica generada por quintas, que en la notación introducida anteriormente se puede escribir como $\Gamma(\log_2(3/2), 7)$.\\
+
+Intuitivamente, estas escalas se caracterizan por dos propiedades esenciales que garantizan su cohesión estructural: la propiedad de ``clausura'' y la de ``simetría''.\\
+
+Si una escala puede generarse mediante la repetición de un único intervalo (el generador $\theta$) y es ``cerrada'' en el sentido de que un número específico de pasos de este generador permuta las notas de la escala, entonces verifica la \textit{propiedad de clausura}. Musicalmente, esto se relaciona con el hecho, entre otros, de que el ciclo de quintas cierra tras $N$ notas, dando lugar a una escala única.\\
+
+Por su parte, una escala cumple la \textit{propiedad de simetría} si los intervalos que la conforman se distribuyen de la manera más uniforme posible. En la práctica, esto significa que todo intervalo genérico existe en exactamente dos tamaños específicos. Esta propiedad es la que dota a la escala de una riqueza armónica y melódica característica, aunque esta variedad armónico-melódica no es condición \textit{sine qua non} para que una escala sea bien formada, es decir, hay escalas verdaderamente irregulares desde un punto de vista melódico que sí son bien formadas.\\
+
+Estas dos propiedades, aparentemente intuitivas, se sintetizan en la siguiente definición formal, que es más operativa desde un punto de vista matemático.
+
+\begin{definition}[Escala Bien Formada]
+    \label{def:wf_scale}
+    Una escala generada $\Gamma(\theta,N)$ se denomina \textit{escala bien formada} si cumple que:
+    \begin{enumerate}
+    \item Es generada por un único intervalo $\theta \in (0,1)$. Al número $\theta$, como ya vimos en la sección previa, se le denomina generador.
+    \item Al ordenar sus notas por altura ($0 = x_0 < x_1 < \dots < x_{N-1} < 1$), los intervalos entre notas consecutivas --\textit{pasos}-- tienen exactamente dos tamaños distintos..
+\end{enumerate}
+\end{definition}
+
+\begin{observation}
+    \label{obs:wf_number_theory}
+    La conexión con la teoría de números, establecida por el teorema \ref{th3steps_irr}, es directa y fundamental: una escala $\Gamma(\theta, N)$ es bien formada (es decir, tiene exactamente dos tamaños de paso) si y sólo si $N$ es el denominador de un convergente o semiconvergente de la fracción continua del generador $\theta$.
+\end{observation}
+
+%%%
+%%% Jo aqui afegiria la definició de coprimers entre el generador i N i això
+%%% Ja ho veuré més endavant
+%%%
+
+ En las figuras \ref{tab:wfs_table} y \ref{tab:not-wfs_table} se observan las representaciones de las escalas pitagóricas de $1,\ldots,12$ notas clasificándolas según su simetría. En este caso, como las escalas son generadas por $\theta=\log_2(3)$, si cumplen la condición de simetría, entonces serán automáticamente \textit{escalas bien formadas}.
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ccc}
+         \includegraphics[width=0.23\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/1so.png} &  
+          \includegraphics[width=0.25\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/2sons.png} & 
+         \includegraphics[width=0.27\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/3sons.png}  \\
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/5sons.png} &  
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/7sons.png} & 
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/wfs_imgs/12sons.png} \\
+
+    \end{tabular}
+    \caption{Escalas pitagóricas de $\{1,2,3,5,7,12\}$ notas que cumplen con el principio de simetría.}
+    \label{tab:wfs_table}
+\end{table}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{ccc}
+          \includegraphics[width=0.25\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/4sons.png} & 
+         \includegraphics[width=0.22\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/6sons.png}  &
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/8sons.png} \\ 
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/9sons.png} &  
+         \includegraphics[width=0.24\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/10sons.png} & 
+         \includegraphics[width=0.26\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/not-wfs-imgs/11sons.png} \\
+
+    \end{tabular}
+    \caption{Escalas pitagóricas de $\{4,6,8,9,10,11\}$ notas que NO cumplen con el principio de simetría.}
+    \label{tab:not-wfs_table}
+\end{table}
+La simetría (o la falta de ella) que observamos en las figuras anteriores puede entenderse visualmente a través de la forma en que se construyen los polígonos que representan las escalas. Para una escala $\Gamma(\theta, n)$ con sus $n$ notas distribuidas en un círculo, podemos trazar dos tipos de polígonos:
+\begin{enumerate}
+    \item Polígono de generación: Se obtiene uniendo las notas en el orden en que son generadas por el intervalo $\theta$: se une $x_0$ con $\{1\theta\}$, $\{1\theta\}$ con $\{2\theta\}$  y así sucesivamente hasta cerrar el ciclo con $\{(n-1)\theta\}$.
+    \item Polígono de pasos: Se obtiene uniendo las notas en su orden de altura a lo largo del círculo: se unen $x_0$ y $x_1$, $x_1$ con $x_2$, $\ldots$ hasta unir $x_{n-1}$ con $x_0$ nuevamente.
+\end{enumerate}
+
+La distinción entre estos dos polígonos es crucial. Una escala es bien formada si y sólo si su polígono de generación es un polígono estrellado regular. Esta regularidad visual es la manifestación geométrica de la propiedad de tener solo dos tamaños de paso y se corresponde con las afirmaciones siguientes:
+\begin{itemize}
+    \item Todos los lados de la estrella (las líneas que unen las notas en el orden de generación) tienen exactamente la misma longitud.
+    \item Todos los ángulos en los vértices de la estrella son iguales.
+    \item Se puede dibujar con un único trazo continuo, saltando siempre el mismo número de puntos, hasta volver al inicio habiendo visitado todos los puntos una sola vez.
+\end{itemize}
+
+\begin{example}
+Para ilustrarlo con un caso concreto, consideremos la escala $\Gamma(\sqrt{3}, 7)$ de la Figura \ref{fig:wf_example_sqrt37}, la cual se ha expuesto anteriormente como el ejemplo \ref{example_scale_sqrt37}.
+
+A primera vista, la distribución de sus notas parece irregular. Sin embargo, un análisis más profundo revela que es un caso curioso de escala bien formada.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Plantilla-LaTeX-TFG/contenido/graphics/images_graphics/img_sqrt37.png}
+    \caption{Representación poligonal de la escala $\Gamma(\{\sqrt{3}\},7)$.}
+    \label{fig:wf_example_sqrt37}
+\end{figure}
+
+Esta escala es bien formada porque su número de notas, $N=7$, es el denominador de un semiconvergente ($5/7$) del generador $\theta = \{\sqrt{3}\}$. Por lo tanto, debe cumplir todas las propiedades de caracterización de las WF:
+
+\begin{itemize}
+    \item El polígono de pasos, de color naranja, está compuesto por lados de exactamente dos longitudes distintas, tal y como exige la Definición \ref{def:wf_scale}. En este caso, hay 3 pasos cortos (de tamaño $\approx 0,0718$) y 4 pasos largos (de tamaño $\approx 0,1962$). La gran diferencia entre ambos tamaños es lo que provoca la distribución no uniforme de las notas en el círculo.
+
+    \item El polígono de generación, de tono magenta, es una estrella regular. Aunque la distribución de sus vértices pueda crear una ilusión de irregularidad, todos sus lados y ángulos son idénticos. Esto confirma visualmente que el orden de generación es completamente simétrico.
+\end{itemize}
+
+Este ejemplo demuestra una lección importante: una escala puede ser matemáticamente ``bien formada'' y aun así no ser ``uniforme'' en un sentido musical o visual si la proporción entre sus dos únicos tipos de paso es muy grande. La regularidad de la estrella de generación es la prueba definitiva de su buena formación.
+    
+\end{example}
+
+En resumen, la propiedad de una escala de ser ``bien formada'' no es una curiosidad abstracta, sino una característica estructural profunda que se manifiesta de tres maneras equivalentes:
+\begin{itemize}
+\item Musicalmente, la escala posee una distribución de intervalos muy regular y equilibrada (solo dos tamaños de paso).
+\item Matemáticamente, el número de notas $n$ es una de las ``mejores aproximaciones racionales'' del generador $\theta$.
+\item Geométricamente, el orden de generación de sus notas dibuja un polígono estrellado regular.
+\end{itemize}
+
+
+
+
+%%%% Aquí podría añadir bajo mi humilde opinión, podría 
+%%%% ampliar con aquello de automorfismos y más cosas que tengo en los papers
+%%%% de la RSME

@@ -1,0 +1,789 @@
+\chapter{Elementos de la teoría matemática}
+Al igual que se hizo en capítulo primero de este trabajo, ahora se pretende dar un contexto puramente matemático de algunos conceptos aritméticos esenciales para la comprensión de las ideas que más tarde se presentarán:
+
+\section{Fracciones continuas}
+
+\begin{definition}[Fracción continua generalizada]
+    Una \textit{fracción continua generalizada} es una expresión de la forma:
+    \[
+    c_1+\frac{b_1}{c_2+\frac{b_2}{c_3+\frac{1}{\ddots+\frac{b_{n-2}}{c_{n-1}+\frac{b_{n-1}}{c_n}}}}}
+    \]
+    donde $c_i, b_i \in \mathbb{C}$, para $i=1,2,...,n$.
+\end{definition}
+
+\begin{definition}[Fracción continua simple]
+    Una \textit{fracción continua simple} es una expresión que permite aproximar un número real por una sucesión de fracciones racionales. Tiene la siguiente forma:
+    \[
+    [a_0;a_1,a_2,a_3,\ldots,a_n]=a_0+\frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\frac{1}{\ddots+\frac{1}{a_n}}}}}
+    \]
+    donde $a_0\in \mathbb{Z}$ y $(a_i)_{i\in \mathbb{N}} \in \mathbb{Z}^+$. Se deduce que una \textit{fracción continua simple} no es más que una \textit{fracción continua generalizada} donde para todo $n\in \mathbb{N}$ se cumple que $b_n=1$ y $c_n \in \mathbb{N} $. Los elementos $a_0,a_1,\ldots, a_n$ reciben el nombre de cocientes parciales de la fracción continua.
+\end{definition}
+
+\begin{observation}
+    Es claro ver que se cumple:
+    \begin{align}
+        [a_0;a_1,a_2,...,a_n]&=\left[a_0;a_1,a_2,...,a_{n-2},a_{n-1}+\frac{1}{a_n}\right]\\
+    [a_0;a_1,a_2,...,a_n]&=a_0+\frac{1}{ [a_1;a_2,...,a_n]}=[a_0;[a_1,a_2,...,a_n]] %\quad \forall  n :1\leq n\leq N
+    \end{align}
+    
+\end{observation}
+
+\begin{definition}[Fracción continua infinita]
+\label{frac_infty}
+Una fracción continua infinita es una expresión de la forma
+ \[
+    a_0+\frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\frac{1}{\ddots}}}}
+ \]
+donde los $a_i\in\mathbb{Z}^+$ para $i = 1, 2, 3, . . . ,$ y $a_0\in\mathbb{Z}$.
+
+Observemos que $a_0, a_1, a_2, \ldots$  de la Definición \ref{frac_infty} da lugar a una sucesión de enteros positivos, excepto $a_0$ que puede ser negativo. Por tanto,
+$x_n = [a_0; a_1, \ldots , a_n]$ es, para cada $n$, una fracción continua que representa a un $x_n\in\mathbb{Q}$. Si probamos que $x_n$ tiende
+a un límite $x$ cuando $n\to\infty$, entonces es natural decir que la fracción continua $[a_0; a_1,\ldots]$ converge al valor $x$, \textit{i.e.}, $x = [a_0; a_1,\ldots]$.
+\end{definition}
+
+\begin{definition}[Convergente de una fracción continua] Se denomina \textit{convergente} $k$\textit{-ésimo} a la la fracción finita obtenida al truncar el desarrollo de la fracción continua en el término $a_k$:
+\[
+    [a_0;a_1,a_2,\ldots,a_k]=a_0+\frac{1}{a_1+\frac{1}{a_2+\frac{1}{a_3+\ddots+\frac{1}{a_k}}}}
+\]
+Cada convergente es la mejor aproximación racional posible a $\theta$. Es decir, si el convergente $k$-ésimo es $\frac{p_k}{q_k}$, se cumple que:
+\[
+\left|\theta - \frac{p_k}{q_k}\right| < \left|\theta - \frac{a}{b}\right|
+\]
+para toda fracción $\frac{a}{b}$ distinta de $\frac{p_k}{q_k}$ con un denominador $b \leq q_k$.
+Además, se dice que una \textit{fracción continua infinita} del tipo $[a_0;a_1,a_2,\ldots]$ es \textit{convergente} si existe y es finito el límite
+\[
+\lim_{k}[a_0;a_1,a_2,\ldots,a_k]
+\]
+\end{definition}
+
+\begin{definition}[Semiconvergente de una fracción continua]
+Se denominan \textit{semiconvergentes} a las fracciones que se encuentran ``entre'' dos convergentes consecutivos.
+    
+    Dados los convergentes $c_{n-1} = \frac{p_{n-1}}{q_{n-1}}$ y $c_n = \frac{p_n}{q_n}$, los semiconvergentes que se forman utilizando el término $a_{n+1}$ de la fracción continua son de la forma:
+    \[
+    \frac{p_{n,k}}{q_{n,k}} = \frac{k p_n + p_{n-1}}{k q_n + q_{n-1}}
+    \]
+    donde $k$ es un entero que toma los valores $k = 1, 2, \ldots, a_{n+1}-1$.
+    
+    \begin{observation}
+        Si $a_{n+1}=1$, no existen semiconvergentes entre $C_n$ y $C_{n+1}$.    
+    \end{observation}
+\end{definition}
+    
+\begin{example}
+    Para expresar $\frac{19}{11}$ como una fracción continua simple:
+    \[
+    \frac{19}{11}=1+\frac{1}{1+\frac{1}{2+\frac{1}{1+\frac{1}{2}}}}
+    \]
+    
+    por lo que $\frac{19}{11}=[1;1,2,1,2]$.
+\end{example}
+\begin{example} Comprobar que $[1;1,1,1,\ldots]=\frac{1+\sqrt{5}}{2}$.\\
+
+Sea $(f_n)_{n=1}^\infty$ la sucesión de Fibonacci, entonces:
+    \[
+        [1;1]=1+\frac{1}{1}=\frac{2}{1}=\frac{f_3}{f_2}
+    \]
+    \[
+        [1;1,1]=1+\frac{1}{1+\frac{1}{1}}=1+\frac{1}{2}=\frac{3}{2}=\frac{f_3}{f_2}
+    \]
+    
+    Suponemos cierto, por inducción,
+    \[
+    [\underbrace{1, 1, 1, \ldots, 1}_{n}]=\frac{f_{n+1}}{f_n}
+    \]
+    
+    Por su parte, para $n+1$
+    \[
+    [\underbrace{1, 1, 1, \ldots, 1}_{n+1}]=1+\frac{1}{ [\underbrace{1, 1, 1, \ldots, 1}_{n}]}=1+\frac{f_{n}}{f_{n+1}}=\frac{f_n+f_{n+1}}{f_{n+1}}=\frac{f_{n+2}}{f_{n+1}}
+    \]
+    
+    Consecuentemente, 
+    \[
+    %[1;1,1,1,\ldots]=\lim_{n}{\frac{f_{n+1}}{f_n}}=\frac{1+\sqrt{5}}{2}
+    \]
+\end{example}
+
+\begin{theorem}
+    Si $x \in \mathbb{Q}$, entonces $x$ se puede representar como una fracción continua finita.
+    \begin{proof}
+        Sea $x=\frac{p}{q}$ con $q>0$, por \textit{el algortimo de Euclides}, existen $a_1,r_1$ tales que $\frac{p}{q}=a_1+\frac{r_1}{q}$ con $0<r_1<q$. Además, $\frac{p}{q}=a_1+\frac{1}{\frac{q}{r_1}}$ y nuevamente existen $a_2,r_2$ tales que $\frac{q}{r_1}=a_2+\frac{r_2}{r_1}$ con $0<r_2<r_1$. Repitiendo el proceso iterativamente se obtiene una sucesión de residuos $r_i$ tales que $r_{i+1}<r_i$, y como son positivos, por\textit{ el principio de buena ordenación}, el proceso es finito. Se concluye que $\frac{p}{q}=[a_1;a_2,...,a_n]$ cuando $r_{n-1}=1$.
+    \end{proof}
+\end{theorem}
+
+\begin{theorem}
+\label{th212}
+    Sean las sucesiones $(p_k)_{k\in \mathbb{N}}, (q_k)_{k\in \mathbb{N}}$ definidas como
+    \begin{align*}
+        p_0 &= a_0, &
+        q_0 &= 1, \\
+        p_1 &= a_1 a_0 + 1, &
+        q_1 &= a_1, \\
+        p_n &= a_n p_{n-1} + p_{n-2}, & 
+        q_n &= a_n q_{n-1} + q_{n-2}, \quad (2 \le n\le N)
+    \end{align*}
+    Entonces, se cumple que 
+    \[
+    [a_0;a_1,a_2,\ldots,a_n]=\frac{p_n}{q_n}
+    \]
+    y es la $n-$ésima convergente de la fracción contínua $[a_0;a_1,a_2,\ldots,a_N]$
+   \begin{proof}
+        La prueba se realiza por inducción. 
+        
+        Para $n=0$, se tiene que $p_0=a_0,q_0=1$ y $[a_0]=\frac{a_0}{1}=a_0=\frac{p_0}{q_0}$.
+        
+        Para $n=1$, se tiene que $p_1=a_1a_0+1,q_1=a_1$ y $[a_0;a_1]=a_0+\frac{1}{a_1}=\frac{a_0a_1+1}{a_1}=\frac{p_1}{q_1}$.
+        
+        Se supone cierto para $n$, 
+        \[
+        [a_0;a_1,\ldots,a_n,a_{n+1}]=\left[a_0;a_1,\ldots,a_{n-1},a_{n}+\frac{1}{a_{n+1}}\right]
+        \]
+        Veamos qué ocurre para $n+1$.
+        En primer lugar, se observa que el $n$-ésimo convergente de la fracción continua de la izquierda es igual al $n$-ésimo convergente de la fracción de la derecha. Entonces:
+        \[
+        \frac{p_{n+1}}{q_{n+1}}=\frac{\left(a_n+\frac{1}{a_{n+1}}\right)p_{n-1}+p_{n-2}}{\left(a_n+\frac{1}{a_{n+1}}\right)q_{n-1}+q_{n-2}}=\frac{a_na_{n+1}p_{n-1}+p_{n-1}+a_{n+1}p_{n-2}}{a_na_{n+1}q_{n}+q_{n-1}+a_{n+1}q_{n-2}}
+        \]
+        Ahora, por la hipótesis de inducción se deduce que
+        \[
+            \frac{p_{n+1}}{q_{n+1}}=\frac{a_{n+1}(a_np_{n-1}+p_{n-2})+p_{n-1}}{a_{n+1}(a_nq_{n}+q_{n-2})+q_{n-1}}
+        \]
+        como queríamos probar.
+
+    \end{proof}
+\end{theorem}
+
+%% LEMA 211
+\begin{lemma}
+\label{211}
+    Las sucesiones $p_n$ y $q_n$ satisfacen
+    \[
+    p_nq_n-p_{n-1}q_n=(-1)^{n-1}\quad\quad(n\geq1)
+    \]
+    \begin{proof}
+    Por el teorema \ref{th212} se tiene que 
+    \[
+    \frac{p_n}{q_n}=\frac{a_np_{n-1}+p_{n-2}}{a_nq_{n-1}+q_{n-2}}
+    \]
+    También
+    \[
+    p_nq_{n-1}-p_nq_n=(a_np_{n-1}+p_{n-2})q_{n-1}-p_{n-1}(a_nq_{n-1}+q_{n-2})
+    \]
+    \[
+    =-(p_{n-1}q_{n-2}-p_{n-2}q_{n-1})
+    \]
+    Repitiendo el argumento para $n-1,n-2,\ldots,2$ se obtiene que
+    \[
+    p_nq_{n-1}-p_nq_n=-(p_{n-1}q_{n-2}-p_{n-2}q_{n-1})=\ldots=(-1)^{n-1}(p_1q_0-p_0q_1)
+    \]
+    \[
+    =(-1)^{n-1}
+    \]
+    \end{proof}
+\end{lemma}
+
+%% LEMA 212
+\begin{lemma} 
+\label{lema212}
+    Las funciones $p_n$ y $q_n$ satisfacen igualmente 
+    \[
+     p_nq_{n-2}-p_{n-2}q_n=(-1)^{n}a_n\quad\quad(n\geq2)
+    \]
+    \begin{proof}
+    Es claro que 
+    \[
+    p_nq_{n-2}-p_{n-2}q_n=(a_np_{n-1}+p_{n-2})q_{n-2}-p_{n-2}(a_nq_{n-1}+q_{n-2})
+    \]
+    \[
+    =a_n(p_{n-1}q_{n-2}-p_{n-2}q_{n-1}) =(-1)^{n}a_n
+    \]
+    \end{proof}
+\end{lemma}
+
+%% LEMA 213
+\begin{lemma}
+\label{lema213}
+Las convergentes pares $x_{2n}$ aumentan estrictamente con $n$ y las convergentes impares $x_{2n+1}$ decrecen estrictamente con $n$.
+
+    \begin{proof}
+    Observamos que cada $q_n$ es positivo y por el Lema \ref{lema212} tenemos que
+    \[
+    \frac{p_n}{q_n} - \frac{p_{n-2}}{q_{n-2}} = \frac{(-1)^n a_n}{q_{n-2} q_n}.
+    \]
+    También $a_i > 0$ para todo $i \in \{1, \ldots, N\}$ (excepto $a_0$ que puede ser negativo). Por tanto, $x_n - x_{n-2}$ tiene el signo de $(-1)^n$.
+    \end{proof}
+\end{lemma}
+
+%% LEMA 214
+\begin{lemma}
+Toda convergente impar es mayor que cualquier convergente par.
+    \begin{proof}
+    Por el Lema \ref{211} tenemos que
+    \[
+    \frac{p_n}{q_n} - \frac{p_{n-1}}{q_{n-1}} = \frac{(-1)^{n-1}}{q_{n-1} q_n}.
+    \]
+    Entonces, $x_n - x_{n-1}$ tiene el signo de $(-1)^{n-1}$. Por tanto, $x_{2m+1} > x_{2m}$. 
+    
+    Ahora bien, si el resultado fuese falso, tendríamos que $x_{2m+1} \leq x_{2\mu}$ para ciertos $m$, $\mu$. 
+    \begin{itemize}
+        \item Si $\mu < m$, entonces, por el Lema \ref{lema213},  tenemos que $x_{2m+1} < x_{2m}$.
+        \item Si $\mu > m$, entonces $x_{2\mu+1} < x_{2\mu}$.
+    \end{itemize}
+    En conclusión, cualquiera de las dos desigualdades contradice que $x_{2m+1} > x_{2m}$.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+    Todo número irracional $x\in \mathbb{I}$ puede escribirse de manera única como desarrollo en fracción continua simple infinita.
+\end{theorem}
+
+\begin{example}[Algoritmo para calcular la fracción continua asociada a $\log_23$]
+\begin{align*}
+    x_0 &=\log_23\approx1.58\ldots&a_0=\lfloor x_0\rfloor=1\\
+    x_1 &=\frac{1}{x_0-a_0}=\frac{1}{\log_23-1}\approx1.70\ldots  &a_1=\lfloor x_1\rfloor=1\\
+    x_2 &=\frac{1}{x_1-a_1}=\frac{1}{\frac{1}{\log_23-1}-1}\approx1.40\ldots  &a_2=\lfloor
+    x_2\rfloor=1\\
+\end{align*}
+    
+Iterando sobre esta idea se obtienen los sucesivos coeficientes de las representación fraccionaria:
+\[
+\log_23=1+\frac{1}{1+\frac{1}{1+\frac{1}{2+\frac{1}{\ddots}}}}=[1;1,1,2,\ldots]
+\]
+Para realizar el cálculo para un $x\in\mathbb{R}$:
+    \begin{enumerate}
+        \item Establezca $x_0 = x$, y establezca $a_0 = \lfloor x_0 \rfloor = \lfloor x \rfloor$ para ser el primer dígito en la representación de fracción continua de $x$.
+        \item Establezca $x_{i+1} = \frac{1}{x_i - a_i}$, y establezca $a_{i+1} = \lfloor x_{i+1} \rfloor$. (Si en algún punto $x_i = a_i$ entonces el algoritmo termina y $x\in \mathbb{Q}$.)
+    \end{enumerate}
+\end{example}
+
+\begin{lemma}
+\label{log_23}
+    El número $\log_2(3)$ es irracional.
+    \begin{proof}
+    Sean $m,n \in \mathbb{Z}^+$ y se supone que $\log_2(3)=\frac{m}{n}$. Entonces:
+    \[
+        \log_2(3)=\frac{m}{n}\implies 2^{\frac{m}{n}}=3\implies2^m=3^n
+    \]
+    Entonces, como $m,n>0$, $3^n$ es siempre impar mientras que $2^m$ es siempre par. En consecuencia, nunca son iguales y el número es irracional.
+    \end{proof}
+\end{lemma}
+
+\begin{theorem}
+Sean $p,q \in \mathbb{N}$, si $\frac{p}{q}\in \mathbb{Q}$ y no es potencia de 2, entonces $\log_2(\frac{p}{q})$ es irracional.
+    \begin{proof}
+        Como se hacía en el lema anterior, se supone que existe $\frac{m}{n} \in \mathbb{Q}$, $m,n \in \mathbb{Z}^+$ tal que $\log_2\left(\frac{p}{q}\right)=\frac{m}{n}$. 
+        Por lo tanto, se tiene que
+        \[
+        \log_2\left(\frac{p}{q}\right)=\frac{m}{n}\implies 2^{\frac{m}{n}}=\frac{p}{q}\implies
+        2^{m}=\left(\frac{p}{q}\right)^{\!n}\implies 2^{m}q^n=p^{m}
+        \]
+        Escribiendo $p=2^l\cdot p'$ y $q=2^k\cdot q'$, como mcd$(2,p')=1$ y mcd$(2,q')=1$ se tiene entonces que $(2^l\cdot p')^n=2^m\cdot (2^k\cdot q')^n$, es decir, 
+        \[
+        2^{n l}\cdot(p')^n=2^m\cdot 2^{k n}\cdot(q')^n=2^{m+kn}\cdot(q')^n
+        \]
+        Por el \textit{teorema fundamental de la aritmética}, debe ser $l\cdot n=m+k\cdot n$, de donde $(l-k)\cdot n = m$. En consecuencia
+        \[
+        \frac{p}{q}=2^{\frac{m}{n}}=2^{l-k}
+        \]
+        que es potencia de 2 y llegamos a una contradicción.
+    \end{proof}
+\end{theorem}
+
+
+\section{Sucesiones de Farey}
+
+
+\begin{definition}[Sucesión de Farey]
+Una \textit{sucesión de Farey $\mathcal{F}_n$} es un conjunto de números racionales $\frac{p}{q}$ donde $p$ y $q$ son coprimos, mcd$(p,q)=1$, y $0<p<q<n$. Además, el conjunto está ascendentemente ordenado.
+\end{definition}
+
+\begin{example}[Sucesión de Farey de orden 6]
+\[
+\mathcal{F}_6=\left\{\frac{0}{1},\frac{1}{6},\frac{1}{5},\frac{1}{4},\frac{1}{3},\frac{2}{5},\frac{1}{2},\frac{3}{5},\frac{2}{3},\frac{3}{4},\frac{4}{5},\frac{5}{6},1\right\}
+\]
+\end{example}
+\begin{proposition}
+Sean dos fracciones $\frac{p_1}{q_1}<\frac{p_2}{q_2}$ irreductibles y consecutivas en una sucesión de Farey $\mathcal{F}_n$, entonces,
+\[
+\left|
+\begin{array}{cc}
+p_1 & p_2\\
+q_1 & q_2
+\end{array}\right|=-1
+\]
+\end{proposition}
+\begin{proof}
+Razonando por inducción, si $\mathcal{F}_1=\{\frac{0}{1},\frac{1}{1}\}$ es claro que se cumple
+\[
+0(1)-1(1)=-1
+\]
+Se supone ahora que la propiedad es cierta para dos fracciones consecutivas $\frac{p_1}{q_1}$ y $\frac{p_2}{q_2}$ en una etapa dada, es decir, $p_1 q_2 - p_2 q_1 = -1$.
+Cualquier término nuevo que aparezca entre ellos en una sucesión posterior será su ``mediante'': $\frac{p_1+p_2}{q_1+q_2}$. Comprobando el determinante entre la fracción izquierda original $\frac{p_1}{q_1}$ y esta nueva fracción:
+\[
+\left|
+\begin{array}{cc}
+p_1 & p_1+p_2\\
+q_1 & q_1+q_2
+\end{array}\right|=p_1(q_1+q_2) - q_1(p_1+p_2)= p_1q_2 - q_1p_2
+\] 
+Este resultado es exactamente el valor que teníamos por hipótesis, que es $-1$. El mismo cálculo aplica para el vecino de la derecha. Como la propiedad se mantiene al añadir nuevos términos, es cierta para cualquier sucesión de Farey.
+    
+\end{proof}
+\begin{proposition}
+    Si las fracciones $\frac{p_i}{q_i}, i\in\{1,2,3\}$ son consecutivas en $\mathcal{F}_n$, entonces
+    \[
+    \frac{p_2}{q_2}=\frac{p_1+p_3}{q_1+q_3}
+    \]
+\end{proposition}
+\begin{proof}
+    Aplicando la proposición anterior, como son fracciones consecutivas en la sucesión se tiene que
+    \[ p_1 q_2 - p_2 q_1 = -1 \]
+    \[ p_2 q_3 - p_3 q_2 = -1 \]
+    Igualando ambas expresiones:
+    \[ p_1 q_2 - p_2 q_1 = p_2 q_3 - p_3 q_2 \]
+    \[ p_1 q_2 + p_3 q_2 = p_2 q_3 + p_2 q_1 \]    
+    \[ q_2(p_1 + p_3) = p_2(q_3 + q_1) \]
+    Finalmente, despejamos para obtener la igualdad buscada:
+    \[ \frac{p_2}{q_2} = \frac{p_1 + p_3}{q_1 + q_3} \]
+\end{proof}
+
+\begin{proposition}
+    Si $\frac{p_1}{q_1}<\frac{p_2}{q_2}$, entonces $\frac{p_1}{q_1}<\frac{p_1+p_2}{q_1+q_2}<\frac{p_2}{q_2}$.
+\end{proposition}
+\begin{proof}
+Para la desigualdad de la izquierda
+\[ \frac{p_1}{q_1} < \frac{p_1+p_2}{q_1+q_2} \implies p_1(q_1+q_2) < q_1(p_1+p_2)\implies p_1 q_2 < p_2 q_1\]
+que es cierto por hipótesis. Se razona de igual manera para la otra desigualdad. 
+En conclusión, la fracción central está estrictamente comprendida entre las otras dos.
+\end{proof}
+
+
+
+
+\section{Teoría de conjuntos y aritmética modular}
+
+El lenguaje de la teoría de conjuntos nos permite formalizar la agrupación de notas musicales. En particular, la noción de equivalencia de octava, fundamental en la música occidental, se modela matemáticamente mediante relaciones de equivalencia y conjuntos cociente.
+
+\begin{definition}[Relación de equivalencia]
+Una \textit{relación de equivalencia} ``$\sim$'' en un conjunto $A$ es una relación binaria que cumple, $\forall a,b,c\in A$, las siguientes propiedades:
+\begin{itemize}
+    \item \textbf{Reflexiva:} $a\sim a$.
+    \item \textbf{Simétrica:} $a\sim b\implies b\sim a$.
+    \item \textbf{Transitiva:} $a\sim b \land b\sim c \implies a\sim c$.
+\end{itemize}
+\end{definition}
+
+\begin{definition}[Clase de equivalencia]
+Sea $\sim$ una relación de equivalencia en $A$ y $a\in A$. Se llama \textit{clase de equivalencia determinada por a} (o clase de altura, en contexto musical) al subconjunto:
+\[
+[a]_{\sim}=\{x\in A \mid x\sim a\}
+\]
+Cualquier elemento $x \in [a]_\sim$ se denomina \textit{representante} de la clase.
+\end{definition}
+
+\begin{observation}
+    Si $A$ es un conjunto no vacío, entonces para cada $a\in A$ se tiene que $[a]_{\sim}\not=\emptyset$ por reflexividad.
+\end{observation}
+\begin{observation}
+    Las clases de equivalencia dividen el conjunto original en piezas disjuntas que lo cubren por completo.
+\end{observation}
+
+\begin{proposition}[Partición del conjunto]
+    El conjunto de las clases de equivalencia forma una \textbf{\textit{partición}} de $A$. Esto significa que:
+    \begin{enumerate}
+        \item La unión de todas las clases es el conjunto total: $\bigcup_{a\in A} [a]_\sim = A$.
+        \item Dos clases distintas son disjuntas: si $[a]_\sim \neq [b]_\sim$, entonces $[a]_\sim \cap [b]_\sim = \emptyset$.
+    \end{enumerate}
+\end{proposition}
+
+\begin{definition}[Conjunto cociente]
+Sea $A$ un conjunto y $\sim$ una relación de equivalencia sobre $A$. Se define el \textit{conjunto cociente} como la colección de todas las clases de equivalencia posibles:
+\[
+A/\sim \ = \{[a]_{\sim} : a\in A\}
+\]
+\end{definition}
+
+\begin{example}[La paridad de los enteros]
+    Sean el conjunto de los números enteros $A = \mathbb{Z}$ y la relación de equivalencia dada por la paridad (congruencia módulo 2):
+    \[ a \sim b \iff a - b \text{ es un número par (es múltiplo de 2)} \]
+    
+    Esta relación agrupa todos los números enteros infinitos en solo dos grandes clases disjuntas:
+    \begin{itemize}
+        \item La clase de los pares, representada por el 0: 
+        \[ [0]_\sim = \{\dots, -4, -2, 0, 2, 4, \dots\} \]
+        \item La clase de los impares, representada por el 1: 
+        \[ [1]_\sim = \{\dots, -3, -1, 1, 3, 5, \dots\} \]
+    \end{itemize}
+    
+    Por tanto, el conjunto cociente resultante tiene exactamente dos elementos:
+    \[ \mathbb{Z}/\sim \ = \{ [0], [1] \} = \mathbb{Z}_2 \]
+    Este ejemplo ilustra cómo el conjunto cociente ``colapsa'' un conjunto infinito en uno finito simplificando su estructura, igual que ocurre al reducir todas las octavas del piano a 12 clases de altura.
+\end{example}
+
+\subsection{Aritmética modular y el círculo unitario}
+
+Para el estudio de las escalas musicales, dos conjuntos cocientes son de especial relevancia: los enteros módulo $n$ (para escalas discretas como la cromática) y los reales módulo 1 (para el espacio continuo de alturas).
+
+\begin{definition}[Congruencia módulo $n$]
+    Sea $n \in \mathbb{Z}^+$. Se define la relación de congruencia sobre los enteros $\mathbb{Z}$ como:
+    \[ a \equiv b \pmod n \iff a - b = k \cdot n, \quad \text{para algún } k \in \mathbb{Z} \]
+    El conjunto cociente resultante se denota como $\mathbb{Z}_n$ (o $\mathbb{Z}/n\mathbb{Z}$) y sus elementos son las clases de restos $\{[0], [1], \dots, [n-1]\}$.
+\end{definition}
+
+\begin{example}
+    Como ya se ha mencionado, el sistema musical de 12 semitonos se modela mediante $\mathbb{Z}_{12}$. La nota $\texttt{do}$ (0) es equivalente a su octava $\texttt{do}'$ (12) porque $12 - 0 = 1 \cdot 12$, por tanto $12 \equiv 0 \pmod{12}$.
+\end{example}
+
+Esta misma idea se extiende a los números reales para modelar el continuo sonoro, lo que nos permitirá identificar las notas con puntos en una circunferencia.
+
+\begin{definition}[El toro unidimensional $\mathbb{R}/\mathbb{Z}$]
+    Sea la relación de equivalencia sobre el conjunto de los números reales $\mathbb{R}$ tal que $x \sim y$ si su diferencia es un número entero:
+    \[ x \sim y \iff x - y \in \mathbb{Z} \]
+    El conjunto cociente $\mathbb{R}/\mathbb{Z}$ identifica todos los puntos que difieren en un número entero. Geométricamente, esto equivale a tomar el intervalo $[0, 1)$ y ``pegar'' sus extremos.
+\end{definition}
+
+\begin{proposition}[Identificación con el círculo $\mathbb{S}^1$]
+    Existe una biyección natural entre el conjunto cociente $\mathbb{R}/\mathbb{Z}$ y el círculo unitario en el plano complejo, denotado como $S^1 = \{z \in \mathbb{C} : |z|=1\}$. La aplicación viene dada por la exponencial compleja:
+    \begin{align*}
+        f: \mathbb{R}/\mathbb{Z} &\longrightarrow \mathbb{S}^1 \\
+        [t] &\longmapsto e^{2\pi i t}
+    \end{align*}
+\end{proposition}
+
+\begin{observation}
+    Esta identificación es la base para la representación geométrica de las escalas y acordes como polígonos inscritos en una circunferencia. Como se verá posteriormente, un punto en el círculo representa una clase de altura, y el ángulo corresponde a la posición de la nota dentro de la octava.
+\end{observation}
+
+\section{Teoría de grupos}
+
+\begin{definition}[Función]
+    Dados dos conjuntos $A$ y $B$, diremos que $f:A\to B$ es una \textit{función} de $A$ en $B$ si a cada $a\in A$ se le asocia un único $b\in B$.
+    \begin{observation}
+        Los conjuntos $A$ y $B$ se llaman \textit{dominio} y \textit{codominio} respectivamente de la función $f$. El subconjunto $C \subset B$ formado por los elementos que están asociados a los del dominio se denomina \textit{imagen} de $f$.
+    \end{observation}
+\end{definition}
+
+\begin{example}
+Sean $D=\{a,b,c\}$ y $E=\{x,y,z\}$, entonces $g:D\to E$ dada por
+\begin{align*}
+    a\longmapsto x\\
+    a\longmapsto y\\
+    b\longmapsto y\\
+    c\longmapsto z\\
+\end{align*}
+no es una función, mientras que
+\begin{align*}
+    a\longmapsto x\\
+    b\longmapsto y\\
+    c\longmapsto z\\
+\end{align*}
+sí lo es.
+\end{example}
+
+\begin{definition}[Producto cartesiano]
+Sean $E,F$ dos conjuntos, se define su producto cartesiano como el conjunto de todas las parejas ordenadas de elementos de ambos conjuntos. Esto es
+\[
+    E\times F=\{(e,f)\ |\ e\in E, f\in F\}
+\]
+\end{definition}
+\begin{definition}[Ley de composición]
+    Sea $G$ un conjunto no vacío, una operación binaria o ley de composición en $G$ es una función $f:G\times G\to G$ donde $(x,y)\mapsto f(f,y)$. Dicha operación se puede denotar por cualquier símbolo, aunque se acostumbra a emplear $*,\ \cdot\ ,\times, \clubsuit, \blacktriangle$... 
+\end{definition}
+
+\begin{example}
+    En la teoría de las matemáticas aplicadas a la música resulta útil considerar la escala cromática igualmente temperada, \ref{fig:escala_cromatica}, como el grupo $\mathbb{Z}_{12}$ con las relaciones
+    
+    \begin{minipage}{0.5\textwidth}
+    \begin{align*}
+        C&\mapsto 0\\
+        C\sharp&\mapsto 1\\
+        D&\mapsto 2\\
+        D\sharp&\mapsto 3\\
+        E&\mapsto 4\\
+        F&\mapsto 5\\
+    \end{align*}
+    \end{minipage}
+    \begin{minipage}{0.5\textwidth}
+    \begin{align*}
+        F\sharp&\mapsto 6\\
+        G&\mapsto 7\\
+        G\sharp&\mapsto 8\\
+        A&\mapsto 9\\
+        A\sharp&\mapsto 10\\
+        B&\mapsto 11\\
+    \end{align*}
+    \end{minipage}
+
+    sin tomar en cuenta la octava en que se ubica cada nota y mostrando haciendo hincapié únicamente en la altura del tono$^{\ref{}}$. Esta interpretación facilita operaciones como el transporte de melodías mediante morfismos.
+\end{example}
+
+\begin{definition}[Grupo]
+    Un \textit{grupo} $G$ es un par $(G,*)$ donde $G$ es un conjunto no vacío, ``$*$'' una ley de composición
+    \begin{align*}
+        *:G\times G&\to G\\
+        (x,y)&\mapsto x*y
+    \end{align*}
+    tal que 
+    \begin{itemize}
+        \item[(i)] \textbf{Asociatividad:} $\forall x,y,z\in G$ se tiene
+        \[
+            (x*y)*z = x*(y*z).
+        \]
+
+    \item[(ii)] \textbf{Elemento neutro:} $\exists e\in G$ tal que $\forall x\in G$,
+        \[
+            e * x = x * e = x.
+        \]
+    
+    \item[(iii)] \textbf{Inverso:} $\forall x\in G$ existe un elemento $x'\in G$ tal que
+        \[
+            x * x' = x' * x = e.
+        \]
+
+    \item[(iv)] \textbf{Cerrado:} $\forall x,y\in G$, $x*y\in G$.
+\end{itemize}
+
+\begin{observation}
+    Se dice que un grupo $(G,*)$ es \textit{abeliano} o \textit{conmutativo} si $\forall x,y\in G, x*y=y*x$.
+\end{observation}
+\end{definition}
+\begin{definition}[Orden]
+El \textit{orden} de un grupo $G$, denotado por $|G|$, es el número de elementos en $G$. Si $G$ tiene un número finito de elementos, decimos que $G$ es un \textit{grupo finito}; en caso contrario, decimos que $G$ es un \textit{grupo infinito}.
+\end{definition}
+
+\begin{example}
+    Considerando las 12 alturas de la escala temperada, se definen las operaciones $\odot_t,\circledast_i$ transposición e inversión dadas por 
+    \begin{itemize}
+    \item[]  $\odot_{t}:=T_n(x) = x + n \pmod{12}$
+    \item[] $\circledast_i:= I(x) = -x \pmod{12}$
+    \end{itemize}
+
+    Entonces el conjunto de todas las operaciones formadas por composición de transposiciones e inversiones:
+
+    \[
+    G = \{T_0, T_1, \dots, T_{11}, T_0I, T_1I, \dots, T_{11}I\}
+    \]
+    
+    forma un grupo de orden 24 isomorfo al grupo diedral \(D_{24}\) que tiene como elementos notables
+    \begin{itemize}
+        \item[(i)] neutro: $T_0$ (transposición por 0 semitonos).
+        \item[(ii)] inverso de $T_n$: $T_{-n} = T_{12-n}$ para $n \neq 0$.
+        \item[(iii)] inverso de $T_nI$: $T_nI$, pues $(T_nI)^2 = T_0$.
+    \end{itemize}
+    Así pues, se pueden caracterizar algunas de las operaciones dentro del grupo como:
+    \begin{align*}
+        T_m \circ T_n &= T_{m+n \mod 12} \\
+        I \circ T_n &= T_{-n} \circ I \\
+        I^2 &= T_0 \quad (\text{elemento identidad}) \\
+        (T_nI)^2 &= T_0 \\
+        (T_mI) \circ (T_nI) &= T_{m-n}
+    \end{align*}
+\end{example}
+\begin{observation}
+    De ahora en adelante, cuando se habla de un grupo y se escribe únicamente como un conjunto $G$ se estará haciendo referencia al grupo $(G,*)$.
+\end{observation}
+
+\begin{definition}[Subgrupo]
+    Se denomina subgrupo $H$ de un grupo $G$ a un subconjunto $H\subset G$ que es un grupo bajo la misma operación que $G$.
+\end{definition}
+
+\begin{definition}[Grupo cíclico]
+    Sea $G$ un grupo, $a\in G$, entonces el \textit{subgrupo cíclico de $G$} \textit{generado por $a$} es
+    \[
+    \langle a \rangle:=\{a^n\ |\ n\in \mathbb{Z}\}
+    \]    
+\end{definition}
+\begin{observation}[Generador]
+Dado $G$ un grupo cíclico. Un elemento $a \in G$ se llama \textit{generador} de $G$ si:
+\[
+G = \langle a \rangle
+\]
+Es decir, si todo elemento de $G$ puede escribirse como una potencia de $a$. Además, un elemento $a^k \in G$ es un generador de $G$ si y sólo si $\text{mcd}(k, n) = 1$.
+\end{observation}
+
+\begin{example}
+\label{grupZ12}
+    El grupo $(\mathbb{Z}_{12},+)$ es cíclico y tiene por generadores a $\{1,5,7,11\}$.
+\end{example}
+
+\begin{example}
+    Tomando el subgrupo cíclico de $(\mathbb{Z}_{12},+)$ generado por $\langle7\rangle$ se obtiene el círculo de quintas (\ref{fig:fifth_circle}).
+    \begin{align*}
+        1 \cdot 7 &\equiv 7 \pmod{12} \quad (C \to G) \\
+        2 \cdot 7 = 14 &\equiv 2 \pmod{12} \quad (G \to D) \\
+        3 \cdot 7 = 21 &\equiv 9 \pmod{12} \quad (D \to A) \\
+        4 \cdot 7 = 28 &\equiv 4 \pmod{12} \quad (A \to E) \\
+        5 \cdot 7 = 35 &\equiv 11 \pmod{12} \quad (E \to B) \\
+        6 \cdot 7 = 42 &\equiv 6 \pmod{12} \quad (B \to F\sharp) \\
+        7 \cdot 7 = 49 &\equiv 1 \pmod{12} \quad (F\sharp \to C\sharp) \\
+        8 \cdot 7 = 56 &\equiv 8 \pmod{12} \quad (C\sharp \to G\sharp) \\
+        9 \cdot 7 = 63 &\equiv 3 \pmod{12} \quad (G\sharp \to D\sharp) \\
+        10 \cdot 7 = 70 &\equiv 10 \pmod{12} \quad (D\sharp \to A\sharp) \\
+        11 \cdot 7 = 77 &\equiv 5 \pmod{12} \quad (A\sharp \to F) \\
+        12 \cdot 7 = 84 &\equiv 0 \pmod{12} \quad (F \to C)
+    \end{align*}
+    
+    Como el subgrupo $\langle 7 \rangle$ contiene los 12 elementos de $\mathbb{Z}_{12}$, se concluye que $\langle 7 \rangle = \mathbb{Z}_{12}$. Esto significa que 7 es un \textit{generador} de $\mathbb{Z}_{12}$, afirmación que ya sabiamos por el ejemplo \ref{grupZ12}. El círculo de quintas es, en esencia, una visualización de la estructura cíclica de $\mathbb{Z}_{12}$ con el generador 7.
+\end{example}
+
+\begin{definition}[Homomorfismo]
+Dados dos grupos $(G,\star), (H,\blacktriangle)$, un \textit{homomorfismo} de grupos es una función que preserva la estructura de grupo es decir, $f:G\to H$ tal que 
+$f(u\star v)=f(u)\blacktriangle f(v)\ \  \forall u,v \in G$.
+Si un homomorfismo es además biyectivo, se llama \textit{isomorfismo}, y se dice que los grupos $G$ y $H$ son \textit{isomorfos} ($G \cong H$).
+\end{definition}
+
+\begin{definition}[Clase lateral]
+    Sea $G$ un grupo y $H$ un subgrupo de $G$. Para cualquier $g \in G$, la \textit{clase lateral izquierda} de $H$ en $G$ que contiene a $g$ es el conjunto:
+    \[
+        gH := \{gh \mid h \in H\}
+    \]
+    De manera análoga se definen las clases laterales derechas $Hg$. El conjunto de todas las clases laterales de $H$ en $G$ forma una partición de $G$.
+\end{definition}
+
+\begin{example}[Acordes y clases laterales]
+    En $\mathbb{Z}_{12}$, el acorde de Do aumentado está formado por las notas $\{C, E, G\sharp\}$, que corresponden con $\{0, 4, 8\}$ del grupo $\mathbb{Z}_{12}$. Este conjunto es precisamente el subgrupo cíclico generado por 4:
+    \[
+        H = \langle 4 \rangle = \{0, 4, 8\}
+    \]
+    Podemos calcular las clases laterales de $H$ en $\mathbb{Z}_{12}$:
+    \begin{itemize}
+        \item[] $0+H = \{0+0, 0+4, 0+8\} = \{0, 4, 8\}$ (Acorde de Do aumentado)
+        \item[] $1+H = \{1+0, 1+4, 1+8\} = \{1, 5, 9\}$ (Acorde de Do$\sharp$ aumentado)
+        \item[] $2+H = \{2+0, 2+4, 2+8\} = \{2, 6, 10\}$ (Acorde de Re aumentado)
+        \item[] $3+H = \{3+0, 3+4, 3+8\} = \{3, 7, 11\}$ (Acorde de Re$\sharp$ aumentado)
+    \end{itemize}
+    Si intentamos calcular $4+H$, obtenemos $4+H = \{0, 4, 8\} = 0+H$.
+    
+    Las clases laterales de $H$ parten el universo de las 12 notas en 4 conjuntos disjuntos, donde cada conjunto es un acorde aumentado. En este contexto, un músico que ``transporta'' un acorde aumentado está, en términos algebraicos, moviéndose de una clase lateral a otra. El conjunto de estas cuatro clases laterales forma un nuevo grupo, el \textit{grupo cociente} $\mathbb{Z}_{12}/H$, de orden 4.
+    
+\end{example}
+
+\begin{definition}[Acción de grupos]
+    Sean $\Sigma$ un conjunto y $(A,\star)$ un grupo. Una \textit{acción} de $\Sigma$ en $A$ es una función
+    \[
+    \phi:\Sigma\times A\to A
+    \]
+    que cumple que
+    \begin{itemize}
+        \item[] $\forall x\in\Sigma,\  \phi(e,x)=x$ con $e$ neutro de $A$.
+        \item[] $\forall x\in\Sigma : a,b\in A,\  \phi(a\star b,x)=\phi(a,\phi(b,x))$.
+    \end{itemize}
+\end{definition}
+
+\begin{definition}[Órbita y Estabilizador]
+    Sea $G$ un grupo que actúa sobre un conjunto $\Sigma$. Para un elemento $x \in \Sigma$:
+    \begin{itemize}
+        \item La \textit{órbita} de $x$ bajo la acción de $G$ es el conjunto de todos los elementos a los que $x$ puede ser transformado por $G$:
+        \[
+            \text{Orb}_G(x) = \{g \cdot x \mid g \in G\} \subseteq X
+        \]
+        \item El \textit{estabilizador} de $x$ en $G$ es el conjunto de todos los elementos de $G$ que dejan a $x$ fijo:
+        \[
+            \text{Stab}_G(x) = \{g \in G \mid g \cdot x = x\} \subseteq G
+        \]
+    \end{itemize}
+    \begin{observation}
+        El estabilizador $\text{Stab}_G(x)$ es siempre un subgrupo de $G$.
+    \end{observation}
+\end{definition}
+
+\begin{example}[Órbita de un acorde mayor y estabilizador de un acorde disminuido]
+Usando la expresiones anteriormente expuestas se pueden calcular
+\begin{itemize}
+        \item[(i)] \textit{\textbf{Órbita}}: La órbita de un acorde de Do mayor, $\{0, 4, 7\}$, bajo la acción del grupo de transposiciones $T=\{T_n\}_{n=0}^{11}$ es el conjunto de los 12 acordes mayores. Si la acción es del grupo diédrico completo $D_{24}$, la órbita también incluye los 12 acordes menores, ya que la inversión transforma un acorde mayor en uno menor. La órbita agrupa a todos los objetos musicalmente ``del mismo tipo'' bajo ciertas transformaciones.
+
+        %%% I(x) = -x (mod 12) a cada número del conjunto {0, 4, 7}:
+        %%% I(0) = -0 mod 12 = 0 (La nota Do se queda en Do).
+        %%% I(4) = -4 mod 12 = 8 (La nota Mi se convierte en Lab).
+        %%% I(7) = -7 mod 12 = 5 (La nota Sol se convierte en Fa).
+        %%% El nuevo conjunto de notas es {0, 8, 5}.
+        
+        \item[(ii)] \textit{\textbf{Estabilizador}}: Consideremos un acorde con más simetría, como el acorde de Do disminuido 7, $C_{dim7} = \{0, 3, 6, 9\}$. ¿Qué transposiciones lo dejan igual?
+        \begin{align*}
+            T_0 \cdot C_{dim7} &= \{0, 3, 6, 9\} \\
+            T_3 \cdot C_{dim7} &= \{3, 6, 9, 12\equiv 0\} = \{0, 3, 6, 9\} \\
+            T_6 \cdot C_{dim7} &= \{6, 9, 12\equiv 0, 15\equiv 3\} = \{0, 3, 6, 9\} \\
+            T_9 \cdot C_{dim7} &= \{9, 12\equiv 0, 15\equiv 3, 18\equiv 6\} = \{0, 3, 6, 9\}
+        \end{align*}
+        El estabilizador del acorde disminuido bajo el grupo de transposiciones es el subgrupo $\text{Stab}_T(C_{dim7}) = \{T_0, T_3, T_6, T_9\}$. Esto captura algebraicamente la simetría inherente a este acorde: es invariante bajo transposiciones de 3 semitonos.
+    \end{itemize}
+\end{example}
+
+\begin{theorem}[Fórmula de Burnside]
+    Sea $G$ un grupo finito que actúa sobre un conjunto $X$. Para cualquier $x \in X$, el tamaño de la órbita de $x$ multiplicado por el tamaño del estabilizador de $x$ es igual al tamaño del grupo:
+    \[
+        |G| = |\text{Orb}_G(x)| \cdot |\text{Stab}_G(x)|
+    \]
+\end{theorem}
+
+\begin{observation}
+    Podemos usar el teorema para predecir cuántos acordes de un tipo existen. Para el acorde disminuido $C_{dim7}$ y el grupo de transposiciones $T$ ($|T|=12$):
+    \[
+        |\text{Orb}_T(C_{dim7})| = \frac{|T|}{|\text{Stab}_T(C_{dim7})|} = \frac{12}{4} = 3
+    \]
+    El teorema predice que solo existen 3 acordes disminuidos distintos, lo cual es un hecho conocido por los músicos:
+    \begin{itemize}
+        \item[] $\{0, 3, 6, 9\}$ (\texttt{\textbf{do}} dim7, \texttt{\textbf{mi}}$\flat$ dim7, \texttt{\textbf{fa}}$\sharp$ dim7, La dim7)
+        \item[] $\{1, 4, 7, 10\}$ (\texttt{\textbf{do}}$\sharp$ dim7, \texttt{\textbf{mi}} dim7, \texttt{\textbf{sol}} dim7, \texttt{\textbf{si}}$\flat$ dim7)
+        \item[] $\{2, 5, 8, 11\}$ (\texttt{\textbf{re}} dim7, \texttt{\textbf{fa}} dim7, \texttt{\textbf{sol}}$\sharp$ dim7, \texttt{\textbf{si}} dim7)
+    \end{itemize}
+\end{observation}
+
+\begin{definition}[Semigrupo]
+Un semigrupo es un sistema algebraico de la forma $(A,\bullet)$, donde $A$ es un conjunto no vacío y $\bullet$ una operación interna definida sobre $A$ de la forma
+\begin{align*}
+\bullet:A\times A &\to A\\
+(a,b)&\mapsto c=a\bullet b
+\end{align*}
+y que cumple las propiedades
+\begin{itemize}
+    \item[i)] $\forall x,y\in A$, $x\bullet y\in A$
+    \item[ii)]$\forall x,y,z\in A$, $x\bullet (y\bullet z)=(x\bullet y)\bullet z$
+\end{itemize}
+\end{definition}
+
+\begin{example}
+    $(\mathbb{N},+)$ es un semigrupo, que además se dice \textit{abeliano}, porque $\forall a,b\in\mathbb{N},\ a+b=b+a$.
+\end{example}
+\begin{definition}[Monoide en $\mathbb{R}$]
+    Un monoide $M$ es un subconjunto de los números reales no negativos $\mathbb{R}_{\ge 0}$ que cumple las siguientes propiedades:
+    \begin{enumerate}
+        \item Contiene el elemento neutro de la suma: $0 \in M$.
+        \item Es cerrado bajo la suma: $\forall a, b \in M \implies a+b \in M$.
+        \item Sus elementos se pueden ordenar en una sucesión creciente $0 = \mu_1 < \mu_2 < \dots$
+    \end{enumerate}
+    \begin{observation}
+    En el contexto de este trabajo, se denomina \textit{monoide temperado} a aquel monoide en que la distancia entre elementos consecutivos tiende a cero ($\lim_{n\to\infty} (\mu_{n+1} - \mu_n) = 0$).
+    \end{observation}
+\end{definition}
+\begin{example}
+$L$ es el monoide generado por los logaritmos de los números naturales, que representa los intervalos musicales puros:
+\[ L = \{ \log_2(n) \mid n \in \mathbb{N} \} \]
+\end{example}
+
+\begin{definition}[Semigrupo Numérico]
+    Un \textit{semigrupo numérico} $S$ es un subconjunto de los números naturales $\mathbb{N}_0$ que satisface:
+    \begin{enumerate}
+        \item $0 \in S$.
+        \item Es cerrado bajo la suma.
+        \item Su complemento $\mathbb{N}_0 \setminus S$ es finito.
+    \end{enumerate}
+    El máximo común divisor de todos los elementos de $S$ debe ser 1. El elemento no nulo más pequeño de $S$ se denomina \textit{multiplicidad} del semigrupo.
+\end{definition}
+
+\begin{definition}[Discretización]
+    Dado un monoide real $M$ y un factor de escala $m \in \mathbb{N}$ (que en música representa el número de divisiones de la octava), se define \textit{la discretización por redondeo} como el conjunto de enteros:
+    \[
+    [m \cdot M] = \{ [m \cdot x] \mid x \in M \}
+    \]
+    donde $[\cdot]$ representa el redondeo al entero más cercano. 
+    \begin{observation}
+    Si el conjunto resultante es un semigrupo numérico, se dice que $m$ es una \textit{multiplicidad válida} de discretización.
+    \end{observation}
+\end{definition}
+\begin{definition}[Razón Áurea]
+    El número áureo, $\phi$, es el número irracional solución positiva de la ecuación cuadrática $x^2-x-1=0$. Su valor es:
+    \[ \phi = \frac{1+\sqrt{5}}{2} \approx 1.61803... \]
+    \begin{observation}
+        En el contexto de la teoría de monoides temperados, este número genera estructuras con propiedades de autosimilitud (fractales) únicas.
+    \end{observation}
+\end{definition}

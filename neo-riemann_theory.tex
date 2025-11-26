@@ -1,0 +1,774 @@
+\chapter{Geometría del sonido}
+
+Establecer la diferencia entre lo que es música y lo que no no es sencillo. Los estudiosos en la materia acostumbran a caracterizar un fragmento sonoro como una pieza musical a través de la implicación siguiente: ``Si no es \textit{reggaetón}, entonces es música.''
+
+Dejando mis ideas-ocurrencias intrusivas de lado, la realidad es que no existe una receta matemática que permita fijar una base para la diferenciar ruido y música. Al final, deshaciendo la madeja que representa un ruido se encuentra música, y haciendo un revoltijo de fragmentos musicales logras generar ruido. Sin embargo, aunque no haya receta secreta y única, sí existen formas de interpretar las secuencias de sonido que permiten construir armonías reconocibles y analizar su estructura.
+
+Siguiendo esta idea, ya se ha visto a lo largo de este trabajo que la música se compone de sonidos organizados en forma de notas, cuya sucesión y superposición crea relaciones que nuestra percepción interpreta como consonantes, disonantes, estables o inestables. Gracias a la escala igualmente temperada, que se ha establecido como el sistema principal de afinación de los instrumentos en la música occidental actual, se puede llevar a cabo un análisis de los sonidos determinando qué acordes los conforman y de qué manera se entrelazan. El estudio de estas relaciones y concatenaciones, que en esencia se corresponden con un proceso compositivo, se puede modelizar matemáticamente de diferentes maneras y a lo largo del presente capítulo trataremos de explicar algunas de ellas.
+
+Podríamos contentarnos con clasificar acordes y enumerar escalas, como quien cataloga piezas de un museo. Pero, al ser la música un organismo en movimiento, su verdadera esencia reside en cómo esos sonidos transitan de unos a otros. La armonía tradicional nos dice que un acorde de Do mayor ``quiere'' ir a Fa mayor y luego a Sol mayor, como un tren sobre raíles. Pero, ¿qué ocurre cuando la música se sale de los raíles?
+
+Es aquí donde la Teoría Neo-Riemanniana nos invita a cambiar el catálogo del museo por un plano del metro. Su potencia reside en no juzgar el viaje, sino en mapear las conexiones. Pionera en los trabajos de David Lewin, esta teoría no reemplaza el sistema anterior, sino que ofrece un nuevo lente para observar lo que ya estaba ahí: una red de relaciones oculta, donde la pregunta clave deja de ser ``¿qué acorde es este?'' para convertirse en ``¿qué tengo que hacer para llegar de este acorde a aquel?''.
+
+En las siguientes secciones, se darán las herramientas necesarias para navegar por este plano. Aprenderemos las consecuencias matemáticas de la transposición y la inversión, a manejar las tres líneas principales de las tríadas —las transformaciones P, L y R— y pasearemos por el \textit{Tonnetz}, diagrama que convierte las secuencias de acordes en paseos geométricos.
+
+En definitiva, siguiendo las ideas expuestas a lo largo de este trabajo y concibiendo, esencialmente, la escala igualmente temperada como el grupo abeliano $(\mathbb{Z}_{12},+)$ se pretende ofrecer una respuesta a la pregunta inicial sobre la delgada línea entre el ruido y la música. Para ello, se empleará la teoría Neo-Riemanniana, que dota de un lenguaje formal a esta idea, mostrando que incluso las progresiones más cromáticamente 'revoltijas' pueden estar articuladas por una lógica subyacente de elegante simplicidad.
+
+\begin{verbatim}
+    tonnetz
+\end{verbatim}
+
+\section{Acordes matemáticos}
+
+Durante la sección \ref{section_chords} del capítulo \ref{chap1} se ha introducido el acorde como concepto musical. En la presente sección se abordarán los acordes desde un prisma aritmético para facilitar su manipulación como objetos algebraicos dentro de un ámbito más estructural.
+
+Como se ha justificado previamente en este trabajo, el grupo cíclico finito $(\mathbb{Z}_{12}, +)$ es la estructura idónea para representar las doce clases de altura del sistema temperado. Se hace estableciendo una biyección entre las notas musicales y los residuos módulo 12, tal como se refleja en la Figura \ref{tab:notas_numeros} (donde, por convención, $C=0, C\sharp=1, \dots, B=11$).
+
+En este contexto, un intervalo musical se define como la distancia modular entre dos elementos y la unidad en $\mathbb{Z}_{12}$ corresponde al semitono musical, $\frac{1}{2}$ tono.
+
+El enfoque de este trabajo se centra en las \textit{\textbf{tríadas}}, que ya vimos que son acordes formados por la ejecución simultánea de tres notas distintas. Dado que el orden de las notas en un acorde simultáneo no altera su identidad básica (aunque sí su inversión), modelaremos los acordes como subconjuntos.
+
+En $\mathbb{Z}_{12}$ existen $\binom{12}{3} = 220$ subconjuntos posibles de 3 elementos. De entre todos ellos, la teoría Neo-Riemanniana restringe su estudio a los 24 acordes consonantes: las tríadas mayores y menores, pero a continuación se expondrán también ejemplos de uso muy común como acordes con $7^{a}$ u otros tipos de sonoridades: aumentado, disminuido...
+
+\begin{definition}[Acorde tríada]
+Un acorde de tres notas (tríada) se define matemáticamente como un subconjunto $\texttt{A} \subset \mathbb{Z}_{12}$ tal que su cardinalidad es $|\texttt{A}|=3$.
+Denotaremos un acorde como $\texttt{A} = \{x, y, z\}$ donde $x, y, z \in \mathbb{Z}_{12}$ son distintos entre sí.
+\end{definition}
+
+\begin{observation}
+    A diferencia de una tupla ordenada $(x,y,z)$, en el conjunto $\{x,y,z\}$ el orden de los elementos no es relevante. Por tanto, $\{0, 4, 7\}$ será, para nosotros, igual que $\{4, 7, 0\}$; ambos representan el acorde de Do Mayor (C).    
+\end{observation}
+
+Para clasificar estos conjuntos en \texttt{mayores} o \texttt{menores}, debemos atender a su estructura interválica interna.
+
+\begin{definition}[Acorde Mayor]
+    Un subconjunto $\mathcal{M} \in \mathscr{P}(\mathbb{Z}_{12})$ es una \textbf{\textit{tríada mayor}} si existe un elemento $r \in \texttt{M}$ (llamado fundamental o raíz) tal que:
+    \[
+    \texttt{M} = \{r, r+4, r+7\} \pmod{12}
+    \]
+\end{definition}
+
+\begin{observation}
+    La tríada mayor se caracteriza por tener una tercera mayor ($4$ semitonos) y una quinta justa ($7$ semitonos) sobre la fundamental.
+\end{observation}
+
+\begin{example}
+Si $r=3$ (Mi$\flat$), entonces $\texttt{M} = \{3, 7, 10\}$ (Acorde de Mi$\flat$ Mayor).    
+\end{example}
+
+\begin{definition}[Acorde Menor]
+Un subconjunto $\texttt{m} \in \mathscr{P}(\mathbb{Z}_{12})$ es una \textbf{\textit{tríada menor}} si existe un elemento $r \in \texttt{m}$ tal que:
+\[
+\texttt{m} = \{r, r+3, r+7\} \pmod{12}
+\]
+\end{definition}
+
+\begin{observation}
+    La tríada menor se caracteriza por tener una tercera menor ($3$ semitonos) y una quinta justa ($7$ semitonos) sobre la fundamental.
+\end{observation}
+
+\begin{example}
+    Si $r=0$ (Do), entonces $\texttt{m} = \{0, 3, 7\}$ (Acorde de Do Menor).    
+\end{example}
+
+\begin{definition}[Conjunto de tríadas Riemannianas]
+\label{def:conjunto_riemannianas}
+Sea \(\mathcal{M} \) el conjunto de las 12 tríadas mayores y $m$ el conjunto de las 12 tríadas menores, entonces 
+el \textbf{\textit{conjunto de las tríadas Riemannianas}}, denotado por \(\mathcal{TR}\), es la unión del conjunto \(\mathcal{M}\) y el conjunto \(\mu\). Es decir,
+\[
+\mathcal{TR} = \mathcal{M} \vee m,
+\]
+donde:
+\begin{itemize}
+    \item[(i)] \(\mathcal{M} = \{ \{r, r+4, r+7\} \mod 12 \mid r = 0, 1, \dots, 11 \}\) 
+    \item[(ii)] \(m\;\; = \{ \{r, r+3, r+7\} \mod 12 \mid r = 0, 1, \dots, 11 \}\) 
+\end{itemize}
+Dado que \(\mathcal{M} \cap m = \emptyset\), el conjunto \(\mathcal{TR}\) contiene exactamente 24 tríadas consonantes, que son el objeto de estudio de la teoría Neo-Riemanniana.
+\end{definition}
+
+\begin{observation}[Precisión sobre la entidad del acorde]
+Hasta ahora hemos trabajado con tríadas como subconjuntos $T = \{a, b, c\} \subset \mathbb{Z}_{12}$, donde $a, b, c \in \{0, 1, \dots, 11\}$. Sin embargo, es importante recordar que cada elemento de $\mathbb{Z}_{12}$ representa en realidad una \textit{clase de tono}:
+\[
+[a] = \{\dots, a-12, a, a+12, a+24, \dots\}
+\]
+Por lo tanto, una tríada debería denotarse formalmente como $T = \{[a], [b], [c]\}$, representando una \textit{clase de tríadas} que incluye todas sus transposiciones octavales. No obstante, en el contexto de la teoría Neo-Riemanniana —donde trabajamos con clases de altura— esta distinción es irrelevante, pues las operaciones se definen módulo 12. Por simplicidad notacional, mantendremos la convención estándar de identificar cada clase $[a]$ con su representante $a$, denotando las tríadas simplemente como conjuntos de números módulo 12.
+\end{observation}
+
+\subsection{Otras sonoridades triádicas}
+
+Aunque el enfoque Neo-Riemanniano clásico pivota sobre las tríadas mayores y menores (consonantes), el universo de las tríadas en $\mathbb{Z}_{12}$ incluye otras estructuras simétricas de gran relevancia armónica.
+
+\begin{definition}[Acorde Disminuido]
+    Una tríada disminuida es un subconjunto $d \in \mathscr{P}(\mathbb{Z}_{12})$ generado por una fundamental $r$ tal que:
+    \[
+    \texttt{d} = \{r, r+3, r+6\} \pmod{12}
+    \]
+\end{definition}
+\begin{observation}
+    Este acorde se forma apilando dos terceras menores consecutivas. Su estructura es simétrica respecto a la inversión interválica, pero carece de la quinta justa, poseyendo en su lugar un tritono ($6$ semitonos).
+\end{observation}
+
+\begin{definition}[Acorde Aumentado]
+    Una tríada aumentada es un subconjunto $aug \in \mathscr{P}(\mathbb{Z}_{12})$ tal que:
+    \[
+    \texttt{aug} = \{r, r+4, r+8\} \pmod{12}
+    \]
+\end{definition}
+\begin{observation}
+    Este conjunto es altamente simétrico; divide la octava en tres partes iguales de 4 semitonos (terceras mayores). Debido a esta simetría rotacional, $\{0, 4, 8\}$ es el mismo conjunto que $\{4, 8, 0\}$ y $\{8, 0, 4\}$. En $\mathbb{Z}_{12}$ solo existen 4 tríadas aumentadas únicas.
+\end{observation}
+
+\subsection{Cuatríadas y acordes de séptima}
+
+Para caracterizar acordes de mayor complejidad armónica, como los utilizados en el Jazz o en la música del periodo romántico tardío, es necesario extender la cardinalidad del subconjunto a $n=4$.
+
+\begin{definition}[Cuatríada]
+    Un acorde de cuatro notas es un subconjunto $\texttt{Q} \subset \mathbb{Z}_{12}$ con cardinalidad $|\texttt{Q}|=4$. Generalmente se construyen añadiendo un intervalo de séptima a una tríada base.
+\end{definition}
+
+A continuación se definen algebraicamente las cuatríadas más comunes en función de su fundamental $r$:
+
+\begin{definition}[Acorde de Séptima de Dominante]
+    Es el acorde más habitual con función de tensión. Se forma sobre una tríada mayor añadiendo una séptima menor ($10$ semitonos):
+    \[
+    \texttt{v}_7 = \{r, r+4, r+7, r+10\} \pmod{12}
+    \]
+\end{definition}
+
+\begin{definition}[Acorde de Séptima Mayor (Maj7)]
+    Característico por su estabilidad y sonoridad abierta. Se forma sobre una tríada mayor añadiendo una séptima mayor ($11$ semitonos):
+    \[
+    \texttt{M}_7 = \{r, r+4, r+7, r+11\} \pmod{12}
+    \]
+\end{definition}
+
+\begin{definition}[Acorde de Séptima Menor]
+    Se forma al añadir una nota más a una tríada menor, que forma un intervalo de séptima menor con respecto a la fundamental:
+    \[
+    \texttt{m}_7 = \{r, r+3, r+7, r+10\} \pmod{12}
+    \]
+\end{definition}
+
+\begin{definition}[Acorde Disminuido con Séptima]
+    Un conjunto de especial interés matemático por su simetría total. Se forma apilando tres terceras menores:
+    \[
+    \texttt{dim}_7 = \{r, r+3, r+6, r+9\} \pmod{12}
+    \]
+\end{definition}
+
+\begin{observation}
+    El acorde $\texttt{dim}_7$ divide el espacio $\mathbb{Z}_{12}$ en cuatro partes iguales. Al igual que la tríada aumentada, su estructura es invariante bajo transposiciones de $T_3, T_6$ y $T_9$ (el concepto de transposición se estudia en la próxima sección). Matemáticamente, existen solo 3 acordes disminuidos séptima únicos que contienen todas las notas de la escala cromática.
+\end{observation}
+
+\section{Transformaciones musicales}
+
+Las transiciones entre notas y acordes en las obras musicales aparecen cada vez que se produce un cambio de altura o de armonía. Estas variaciones se pueden definir rigurosamente por medio de las matemáticas, concretamente haciendo uso de la teoría de grupos para modelar las operaciones que transforman un objeto musical en otro.
+
+Al considerar el conjunto de las clases de altura $\mathbb{Z}_{12}$ como nuestro espacio geométrico, una transformación musical no es más que una función biyectiva $f: \mathbb{Z}_{12} \to \mathbb{Z}_{12}$. De entre todas las permutaciones posibles ($12!$), la teoría musical tradicional y la Neo-Riemanniana se interesan casi exclusivamente por aquellas que preservan la estructura interválica de los acordes (isometrías): las transposiciones y las inversiones.
+
+\subsection{Transposición e Inversión}
+
+Las dos operaciones fundamentales que generan el grupo de simetrías de la música dodecafónica (isomorfo al grupo diedral $D_{24}$) son el desplazamiento constante (transposición) y la reflexión (inversión).
+
+\begin{definition}[Transposición]
+    Sean una clase de altura $x \in \mathcal{M}$, $x=\{a,b,c\}$ y un intervalo $n \in \mathbb{Z}_{12}$, la operación de \textbf{\textit{transposición}} $T_n$ se define como una función $T_n(x):\mathcal{M}\to\mathcal{M}$ donde:
+    \[
+    T_n(x)=\{a+n,\ b+n,\ c+n\} = x + n \pmod{12}
+    \]
+\end{definition}
+
+\begin{observation}
+    Esta operación representa una rotación del ciclo de notas. Cuando se aplica una transposición $T_n$ a un acorde, simplemente se suman $n$ semitonos a cada uno de sus elementos.
+\end{observation}
+
+
+\begin{observation}
+    La transposición preserva la ``calidad'' del acorde. Si $\texttt{A}$ es una tríada mayor, $T_n(\texttt{A})$ seguirá siendo una tríada mayor para cualquier $n$.
+\end{observation}
+
+\begin{example}
+    Tomando el acorde de Do, $C = \{0, 4, 7\}$. Al aplicarle una transposición de $n=7$ semitonos  (quinta justa):
+    \[
+    T_7(\{0, 4, 7\}) = \{0+7, 4+7, 7+7\} = \{7, 11, 2\} \pmod{12}
+    \]
+    El resultado es el conjunto-acorde $\{7, 11, 2\}$, (\texttt{\textit{sol}}, \texttt{\textit{si}}, \texttt{\textit{re}}), que corresponde al acorde de Sol ($G$).
+
+    %%%
+    %%% IMAGEN DE POLÍGONO COLOREADO amb la transposició
+    %%%
+    
+\end{example}
+
+La segunda operación fundamental es la inversión. Aritméticamente, corresponde a cambiar el signo de los elementos, lo que equivale a recorrer la escala cromática en sentido opuesto.
+
+\begin{definition}[Inversión]
+    Sean $x \in \mathbb{Z}_{12}$ y $n \in \mathbb{Z}_{12}$, la operación de \textbf{\textit{inversión}} $I_n$ se define como una función $I_n(x):\mathcal{M}\to\mathcal{M}$ dada por:
+    \[
+    I_n(x) = -x + n \pmod{12}
+    \]
+\end{definition}
+
+\begin{observation}
+    Geométricamente, $I_n$ representa una reflexión del ciclo de notas respecto a un eje de simetría definido por $n$. En teoría musical clásica, esto suele conceptualizarse como invertir la dirección de los intervalos: una tercera ascendente se convierte en una tercera descendente.
+\end{observation}
+
+\begin{observation}[Cambio de modo]
+    A diferencia de la transposición, la inversión transforma tríadas mayores en menores y viceversa. Esto se debe a que el orden de los intervalos se invierte: el intervalo de $4$ semitonos (3ª M) se convierte en $-4 \equiv 8\pmod {12}$ (3ª m complementaria).
+\end{observation}
+
+\begin{example}
+    Aplicando la inversión $I_0$ (respecto a \texttt{\textit{do}}) al acorde de Do Mayor $C = \{0, 4, 7\}$:
+    \[
+    I_0(\{0, 4, 7\}) = \{-0, -4, -7\} = \{0, 8, 5\} \pmod{12}
+    \]
+    Reordenando, $\{0, 5, 8\}$, se observa que es una tríada de Fa Menor ($Fm$). Mediante una inversión se transforma un acorde mayor en uno menor.
+\end{example}
+
+\begin{definition}
+    El conjunto de las funciones de transposición e inversión se denota como $\mathcal{TI}$ y se define por 
+    \[
+    \mathcal{TI}=\{T_n,I_n : n=0,\ldots,11\}
+    \]
+    Los elementos de este conjunto aparecen de las composiciones de ambas funciones.
+\end{definition}
+\begin{lemma}
+\label{relations}
+    En el conjunto $\mathcal{TI}$ se tienen las relaciones:
+    \begin{align*}
+        i)&\ T_m\circ T_n= T_{m+n\! \pmod{12}},\\
+        ii)&\ T_m\circ I_n= I_{m+n\! \pmod{12}},\\
+        iii)&\ I_m\circ T_n= I_{m-n\! \pmod{12}},\\
+        iv)&\ I_m\circ I_n= T_{m-n\! \pmod{12}}.
+    \end{align*}
+    \begin{proof}
+        \begin{align*}
+            (i)\ \ T_m\circ T_n &= T_m(T_n(\{a,b,c\}))\\
+            &=T_m(\{a+n,b+n,c+n\})\\
+            &=\{a+n+m,b+n+m,c+n+m\}\\
+            &=\{a+(m+n),b+(m+n),c+(m+n)\}\\
+            &=T_{m+n\!\pmod{12}}
+         \end{align*}
+         \begin{align*}
+            (ii)\ \ T_m\circ I_n&= T_m(I_n(\{a,b,c\}))\\
+            &=T_m(\{-a+n,-b+n,-c+n\})\\
+            & =\{-a+n+m,-b+n+m,-c+n+m\}\\
+            &=\{-a+(n+m),-b+(n+m),-c+(n+m)\}\\
+            &=I_{m+n\!\!\pmod{12}}
+         \end{align*}
+         \begin{align*}
+            (iii)\ \ I_m\circ T_n&= I_m(T_n(\{a,b,c\}))\\
+            &=I_m(\{a+n,b+n,c+n\})\\
+            & =\{-a-n+m,-b-n+m,-c-n+m\}\\
+            &=\{-a+(m-n),-b+(m-n),-c+(m-n)\}\\
+            &=I_{m-n\!\!\pmod{12}}
+         \end{align*}
+         \begin{align*}
+            (iv)\ \ I_m\circ I_n&= I_m(I_n(\{a,b,c\}))\\
+            &=I_m(\{-a+n,-b+n,-c+n\})\\
+            & =\{a-n+m,b-n+m,c-n+m\}\\
+            &=\{a+(m-n),b+(m-n),c+(m-n)\}\\
+            &=T_{m-n\!\!\pmod{12}}
+         \end{align*}
+        
+    \end{proof}
+\end{lemma}
+\begin{proposition}
+    Para todo $n,k\in\mathbb{Z}$ tal que $n\equiv k \pmod{12}$,
+    \[
+    T_n=T_k \quad \text{e} \quad I_n=I_k
+    \]
+    \begin{proof}
+    Dado que $n\equiv k\pmod{12}$, entonces $n=12p+k,\ p\in\mathbb{Z}$. En consecuencia, 
+    \[
+    T_n=T_{12p+k}=T_{12p}\circ T_{k}=(T_0)^p\circ T_k=id\ \circ T_k=T_k
+    \]
+    Igualmente,
+    \[
+    I_n=I_{12p+k}=T_{12p}\circ I_k=(T_0)^p\circ I_k=id\ \circ I_k=I_k
+    \]    
+    \end{proof}
+\end{proposition}
+\begin{proposition}
+    El conjunto $\mathcal{TI}$ tiene estructura de grupo con la composición de funciones ``$\ \circ$''.
+    \begin{proof}
+        Se prueban las propiedades de grupo algebraico.
+        \begin{enumerate}
+            \item $\forall f,g\in\mathcal{TI}, \ f\circ g\in\mathcal{TI}$ por el lema \ref{relations}$\implies \mathcal{TI}$ cerrado bajo la composición.
+            \item $T_0$ es la identidad, porque
+            \begin{align*}
+                T_0\circ T_n&= T_{0+n}=T_n,\\
+                T_m\circ T_0&= T_{m+0}=T_m,\\
+                T_0\circ I_n&= I_{0+n}=I_n,\\
+                I_m\circ T_0&= I_{m-0}=I_m.
+            \end{align*}
+            Por tanto, $T_0=id\in\mathcal{TI}$.
+            \item La asociatividad se cumple al ser una propiedad heredada de la composición de funciones.
+            \item Al coexistir dos tipos de elementos en el grupo, se tienen como elementos neutros $T_{12-n}=T_n^{-1}$ e $I_n=I_n^{-1}$, porque por un lado
+            \begin{align*}
+            T_n\circ T_{12-n}&=T_{n+12-n}=T_{12}=T_0\\
+            T_{12-n}\circ T_{n}&=T_{n-12+n}=T_{12}=T_0\\
+            \end{align*}
+            y por otro
+            \begin{align*}
+                I_n\circ I_n=T_{n-n}=T_0
+            \end{align*}
+        \end{enumerate}
+    \end{proof}
+\end{proposition}
+\begin{definition}[Grupo de Transposiciones]
+    Se denota por $\mathcal{T}$ al subgrupo de $\mathcal{TI}$ formado exclusivamente por las operaciones de desplazamiento constante:
+    \[ \mathcal{T} = \{ T_n \in \mathcal{TI} \mid n \in \mathbb{Z}_{12} \} \]
+    Este subgrupo es cíclico, abeliano y de orden 12.
+\end{definition}
+\begin{proposition}[Isomorfismo]
+    El grupo $\mathcal{TI}$ es isomorfo al grupo diedral $D_{24}$.
+    
+    \begin{proof}
+    El grupo diedral $D_{24}$ se puede representar mediante la presentación generada por una rotación $r$ y una reflexión $s$:
+    \[
+    D_{24}=\langle r,s\ |\ r^{12}=1,\ s^2=1,\ sr=r^{-1}s \rangle
+    \]
+    Se pretende encontrar generadores isomorfos en el grupo $\mathcal{TI}$. Proponemos la identificación $r = T_1$ y $s = I_0$. Sea $x \in \mathbb{Z}_{12}$ una clase de altura cualquiera.
+    
+    En primer lugar, analizamos el comportamiento de la operación $T_1(x) = x+1 \pmod{12}$. Aplicar esta transformación reiteradamente equivale a una suma acumulativa, de modo que al aplicarla 12 veces obtenemos
+    \[
+    (T_1)^{12}(x) = x + 12 \equiv x \pmod{12}
+    \]
+    lo cual confirma que $(T_1)^{12} = T_0 = id$. De manera análoga, al aplicar dos veces consecutivas la operación $I_0(x) = -x \pmod{12}$, obtenemos que $(I_0)^2(x) = -(-x) = x$, verificándose así que $(I_0)^2 = T_0 = id$.
+    
+    A continuación, es necesario comprobar la relación de conmutación estructural $s r = r^{-1} s$, que en el contexto estudiado se traduce como $I_0 \circ T_1 = T_1^{-1} \circ I_0$. Sabiendo que en aritmética modular el inverso de sumar 1 es sumar 11 ($T_1^{-1} = T_{11}$), evaluamos ambos lados de la igualdad. Por la izquierda, tenemos
+    \[
+    (I_0 \circ T_1)(x) = I_0(x+1) = -(x+1) = -x - 1 \pmod{12}
+    \]
+    mientras que por la derecha, la composición resulta en
+    \[
+    (T_{11} \circ I_0)(x) = T_{11}(-x) = -x + 11
+    \]
+    Dado que $11 \equiv -1 \pmod{12}$, ambos resultados son equivalentes para todo $x$, satisfaciéndose la relación requerida.
+
+    Finalmente, el grupo generado por estos dos elementos contiene tanto las potencias de $T_1$ (las 12 transposiciones $\{T_0, \dots, T_{11}\}$) como los productos de estas con $I_0$ (las 12 inversiones $\{I_0, \dots, I_{11}\}$). Puesto que una transposición, que conserva la orientación interválica, nunca puede ser igual a una inversión, que la invierte, el conjunto resultante
+    \[
+    \mathcal{TI} = \{T_0, T_1, \dots, T_{11}, I_0, I_1, \dots, I_{11}\}
+    \]
+    contiene exactamente 24 elementos distintos. Al existir un homomorfismo entre los generadores que respeta las relaciones y coincidir la cardinalidad finita de ambos grupos, $\mathcal{TI} \cong D_{24}$.
+\end{proof}
+\end{proposition}
+
+\subsection{Transformaciones $\mathcal{P}$, $\mathcal{L}$ y $\mathcal{R}$}
+
+El grupo $\mathcal{TI}$ visto anteriormente actúa sobre todo el espacio cromático. Sin embargo, la Teoría Neo-Riemanniana centra su atención en un subgrupo de operaciones muy específico que conecta las tríadas consonantes (el conjunto $\mathcal{TR}$ definido en \ref{def:conjunto_riemannianas}) basándose en el principio de \textit{conducción de voces}.
+
+Este principio establece que la conexión ``más fuerte'' entre dos acordes se produce cuando se retienen tantas notas comunes como sea posible y las notas que cambian lo hacen por la distancia mínima (un semitono o un tono).
+
+Las tres transformaciones fundamentales que cumplen estos requisitos se denominan $\mathcal{P}$ (\textit{Parallel}), $\mathcal{L}$ (\textit{Leading-tone exchange}) y $\mathcal{R}$ (\textit{Relative}). Matemáticamente, se definen como \textit{inversiones contextuales}: operaciones que invierten el acorde respecto a un eje formado por dos de sus notas.
+
+\begin{definition}[$\mathcal{P}$]
+    La transformación $\mathcal{P}$ intercambia una tríada con su paralela de modo opuesto. Preserva la fundamental y la quinta, moviendo únicamente la tercera un semitono, hacia arriba o hacia abajo.
+    Sea $\texttt{A}$ una tríada con fundamental $r$. La acción de $\mathcal{P}$ se define por casos:
+    \[
+    \mathcal{P}(A) = 
+    \begin{cases} 
+    \{r, r+3, r+7\} & \text{si } \texttt{A} \text{ es \texttt{mayor} } \{r, r+4, r+7\} \\
+    \{r, r+4, r+7\} & \text{si } \texttt{A} \text{ es \texttt{menor} } \{r, r+3, r+7\}
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{example}
+\label{fa_P_trans}
+
+    Consideremos el acorde de \texttt{fa} Mayor, $F = \{5, 9, 0\}$ (correspondiente a las notas \texttt{fa}, \texttt{la}, \texttt{do}).
+    Al aplicar $\mathcal{P}$, conservamos la fundamental ($5$, \texttt{fa}) y la quinta ($0$, \texttt{do}). La tercera ($9$, \texttt{la}) se desplaza un semitono descendente para convertirse en tercera menor ($8$, \texttt{la}$\flat$).
+    \[
+    \mathcal{P}(\{5, 9, 0\}) = \{5, 8, 0\} = Fm \text{ (\texttt{fa} \texttt{mayor})}
+    \]
+    El resultado son las notas \texttt{fa}, \texttt{la}$\flat$, \texttt{do}.
+\end{example}
+
+\begin{definition}[$\mathcal{L}$]
+    La transformación $\mathcal{L}$ (del alemán \textit{Leittonwechsel}) intercambia una tríada mayor con una menor conservando las notas que forman la tercera menor (la tercera y la quinta en el acorde mayor; la fundamental y la tercera en el menor). La nota restante se mueve un semitono.
+    Algebraicamente:
+    \[
+    \mathcal{L}(A) = 
+    \begin{cases} 
+    \{r+4, r+7, r+11\} & \text{si } \texttt{A} \text{ es \texttt{mayor} } \{r, r+4, r+7\} \\
+    \{r+1, (r+1)+3, (r+1)+7\} & \text{si } \texttt{A} \text{ es \texttt{menor} } \{r, r+3, r+7\}
+    \end{cases}
+    \]
+    \begin{remark}
+    \textit{En términos simples, si es Mayor la fundamental baja un semitono; si es Menor la quinta sube un semitono).}
+    \end{remark}
+\end{definition}
+
+\begin{example}
+\label{mi_L_trans}
+  Para \texttt{Mi} Mayor, $E = \{4, 8, 11\}$ ( \texttt{mi},  \texttt{sol}$\sharp$,  \texttt{si}).
+    Las notas que forman la tercera menor superior del acorde son $8$ (\texttt{sol}$\sharp$) y $11$ ( \texttt{si}). Estas se conservan bajo la transformación $\mathcal{L}$. La fundamental $4$ (\texttt{mi}) desciende un semitono a $3$ ( \texttt{re}$\sharp$).
+    \[
+    \mathcal{L}(\{4, 8, 11\}) = \{3, 8, 11\}
+    \]
+    El conjunto resultante $\{3, 8, 11\}$ corresponde a las notas  \texttt{re}$\sharp$,  \texttt{sol}$\sharp$,  \texttt{si}. Al reordenarlas, identificamos la tríada de \texttt{sol}$\sharp$ menor ($G\sharp m$).
+\end{example}
+\begin{definition}[$\mathcal{R}$]
+    La transformación $\mathcal{R}$ (relativa) intercambia una tríada con su relativa clásica. Preserva las notas que forman la tercera mayor (la fundamental y la tercera en el acorde mayor; la tercera y la quinta en el menor). La nota restante se mueve un tono entero ($2$ semitonos).
+    
+    \[
+    \mathcal{R}(A) = 
+    \begin{cases} 
+    \{r+9, r, r+4\} & \text{si } \texttt{A} \text{ es \texttt{mayor} } \{r, r+4, r+7\} \\
+    \{r+3, r+7, r+10\} & \text{si } \texttt{A} \text{ es \texttt{menor} } \{r, r+3, r+7\}
+    \end{cases}
+    \]
+\end{definition}
+
+\begin{example}
+\label{fa_R_trans}
+
+    Volviendo al acorde de \texttt{Fa} Mayor, $F = \{5, 9, 0\}$ (\texttt{fa}, \texttt{la}, \texttt{do}).
+    Para la transformación relativa $\mathcal{R}$, conservamos las notas que forman la tercera mayor, es decir, la fundamental $5$ (\texttt{fa}) y la tercera $9$ (\texttt{la}). La quinta $0$ (\texttt{do}) asciende un tono completo hasta $2$ (\texttt{re}).
+    \[
+    \mathcal{R}(\{5, 9, 0\}) = \{5, 9, 2\}
+    \]
+    Reordenando el conjunto obtenido $\{2, 5, 9\}$, tenemos las notas \texttt{re}, \texttt{fa}, \texttt{la}, que constituyen la tríada de \texttt{Re} Menor ($Dm$).
+\end{example}
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.65\linewidth]{Plantilla-LaTeX-TFG/images/transformations_PLR.png}
+    \caption{Representación de las transformaciones $\mathcal{P}$, $\mathcal{L}$ y $\mathcal{R}$.}
+    \label{fig:transformations_PLR}
+\end{figure}
+
+\begin{observation}[La estructura de grupo $\mathcal{PLR}$]
+    Una propiedad fundamental de estas operaciones es que son \textbf{\textit{involuciones}}. Esto significa que aplicar la misma transformación dos veces nos devuelve al acorde original:
+    \[
+    \mathcal{P}^2 = \mathcal{L}^2 = \mathcal{R}^2 = id
+    \]
+    Por ejemplo, el relativo del relativo de Do Mayor es, de nuevo, Do Mayor. Además, la composición de estas operaciones permite alcanzar cualquier tríada del conjunto $\mathcal{R}$ a partir de cualquier otra, formando un grupo que actúa transitivamente sobre las 24 tríadas mayores y menores. Esta estructura algebraica es la que da lugar al famoso grafo conocido como \textit{Tonnetz}.
+\end{observation}
+
+Hasta este punto, se han definido las operaciones de manera geométrica. Sin embargo, también se pueden manipular estos objetos algebraicamente. Para ello, es conveniente establecer una notación vectorial que nos permita calcular la acción de las transformaciones sin necesidad de verificar ``caso por caso'' las notas individuales.
+
+\subsection{Representación vectorial de las tríadas}
+
+Podemos establecer una biyección entre el conjunto de las 24 tríadas riemannianas $\mathcal{R}$ y el producto cartesiano $\mathbb{Z}_{12} \times \mathbb{Z}_2$.
+Definimos el \textit{espacio de estados triádicos} como el conjunto de pares ordenados $S = \{(r, \sigma)\}$, donde:
+\begin{itemize}
+    \item[i)] $r \in \mathbb{Z}_{12}$ representa la fundamental del acorde.
+    \item[ii)] $\sigma \in \{1, -1\}$ representa el modo del acorde, donde $1$ denota \texttt{mayor} y $-1$ denota \texttt{menor}.
+\end{itemize}
+
+\begin{example} 
+Siguiendo este nuevo modelo \texttt{do} Mayor se representaría como $(0, 1)$.
+\end{example}
+
+Bajo esta representación, las transformaciones $\mathcal{P}$, $\mathcal{L}$ y $\mathcal{R}$ pueden definirse como funciones biyectivas $f: S \to S$ que invierten el signo de $\sigma$ (cambian de modo) y desplazan la fundamental $r$ una cantidad dependiente del modo actual.
+
+\begin{definition}[Transformación neo-Riemanniana]
+    Una \textbf{\textit{transformación neo-Riemanniana $F_k$}} es una aplicación lineal que actúa sobre una tríada $(r, \sigma)$ de la siguiente manera:
+    \[
+    F_k(r, \sigma) = (r + k \cdot \sigma, -\sigma) \pmod{12}
+    \]
+    donde $k$ es una constante de desplazamiento específica para cada transformación.
+    
+    \begin{itemize}
+        \item[i)] \textbf{Para la transformación $\mathcal{P}$}, el desplazamiento es nulo ($k=0$):
+        \[ \mathcal{P}(r, \sigma) = (r, -\sigma)=F_0(r, \sigma) \]
+        \textit{(La fundamental se mantiene, el modo cambia).}
+        
+        \item[ii)] \textbf{Para la transformación $\mathcal{L}$}, el desplazamiento es de una tercera mayor ($k=4$):
+        \[ \mathcal{L}(r, \sigma) = (r + 4\sigma, -\sigma)=F_4(r, \sigma) \]
+        \textit{(Si es \texttt{mayor}, la fundamental sube 4 semitonos; si es \texttt{menor}, baja 4 semitonos.}
+        
+        \item[iii)] \textbf{Para la transformación $\mathcal{R}$}, el desplazamiento es de una sexta mayor ($k=9\equiv-3 \pmod{12}$):
+        \[ \mathcal{R}(r, \sigma) = (r + 9\sigma, -\sigma)=F_9(r, \sigma) \]
+    \end{itemize}
+        
+\end{definition}
+
+\begin{observation}[Modelado matricial]
+    La definición anterior sugiere permite, al ser las transformaciones lineales sobre el módulo $\mathbb{Z}_{12} \times \{1, -1\}$, escribir la tríada como un vector columna $\mathbf{v} = \begin{pmatrix} r \\ \sigma \end{pmatrix}$, y cada transformación $F_k$ como una matriz de la forma:
+    \[
+    \mathbf{M}_k = \begin{pmatrix} 1 & k \\ 0 & -1 \end{pmatrix}
+    \]
+    
+    De este modo, obtenemos las matrices generadoras del grupo PLR:
+    \[
+    \mathbf{M}_\mathcal{P} = \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix}, \quad
+    \mathbf{M}_\mathcal{L} = \begin{pmatrix} 1 & 4 \\ 0 & -1 \end{pmatrix}, \quad
+    \mathbf{M}_\mathcal{R} = \begin{pmatrix} 1 & 9 \\ 0 & -1 \end{pmatrix}
+    \]
+\end{observation}
+
+\begin{observation}
+    Esta formulación permite programar las operaciones como algoritmos simples facilitando el cálculo de cadenas complejas de transformaciones.
+\end{observation}
+
+\begin{example}[Verificación matricial de los ejemplos \ref{fa_P_trans}, \ref{mi_L_trans} y \ref{fa_R_trans}.]
+    A continuación, retomo los casos prácticos expuestos anteriormente para verificar la robustez del modelo algebraico.
+    \vspace{0.3cm}
+    
+    \textbf{Ejemplo 30 bis}\\
+    Se expresa Fa Mayor con fundamental $r=5$ (\texttt{fa}) y modo $\sigma=1$ (\texttt{mayor}): $\mathbf{v} = \binom{5}{1}$.
+    Aplicamos la matriz $\mathbf{M}_\mathcal{P}$:
+    \[
+    \mathbf{M}_\mathcal{P} \cdot \mathbf{v} = 
+    \begin{pmatrix} 1 & 0 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 5 \\ 1 \end{pmatrix} =
+    \begin{pmatrix} 1\cdot5 + 0\cdot1 \\ 0\cdot5 + (-1)\cdot1 \end{pmatrix} =
+    \begin{pmatrix} 5 \\ -1 \end{pmatrix}
+    \]
+    El vector resultante $(5, -1)$ corresponde a la fundamental $5$ (\texttt{fa}) con modo \texttt{menor}: \texttt{fa} menor ($Fm$).
+    
+    \vspace{0.3cm}
+    
+    \textbf{Ejemplo 31 bis}\\
+    Se codifica Mi Mayor con $r=4$ (\texttt{mi}) y $\sigma=1$: $\mathbf{v} = \binom{4}{1}$.
+    Aplicando la matriz $\mathbf{M}_\mathcal{L}$:
+    \[
+    \mathbf{M}_\mathcal{L} \cdot \mathbf{v} = 
+    \begin{pmatrix} 
+        1 & 4 \\ 
+        0 & -1 
+    \end{pmatrix} 
+    \begin{pmatrix} 
+        4 \\ 
+        1 
+    \end{pmatrix} =
+    \begin{pmatrix} 
+        4 + 4 \\ 
+        -1 
+    \end{pmatrix} =
+    \begin{pmatrix} 
+        8 \\ 
+        -1 
+    \end{pmatrix}
+    \]
+    El vector resultante $(8, -1)^t$ corresponde a la fundamental $8$ (\texttt{sol}$\sharp$) con modo \texttt{menor}: \texttt{sol}$\sharp$ menor ($G\sharp m$).
+    
+    \vspace{0.3cm}
+    
+    \textbf{Ejemplo 32 bis}\\
+    Partiendo nuevamente de \texttt{fa} Mayor $\mathbf{v} = \binom{5}{1}$.
+    Aplicamos la matriz $\mathbf{M}_\mathcal{R}$:
+    \[
+    \mathbf{M}_\mathcal{R} \cdot \mathbf{v} = 
+    \begin{pmatrix} 1 & 9 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 5 \\ 1 \end{pmatrix} =
+    \begin{pmatrix} 5 + 9 \\ -1 \end{pmatrix} =
+    \begin{pmatrix} 14 \\ -1 \end{pmatrix}
+    \]
+    Reduciendo el módulo 12 ($14 \equiv 2$), se obtiene el vector $(2, -1)^t$. Esto corresponde a la fundamental $2$ (\texttt{re}) con modo \texttt{menor}: \texttt{re} menor ($Dm$).
+\end{example}
+
+Más allá de las operaciones individuales, el interés matemático reside en la estructura que estas generan.
+
+\begin{definition}[Grupo $\mathcal{PLR}$]
+    El grupo $\mathcal{PLR}$, denotado a veces como $\mathcal{G}_{PLR}$, es el subgrupo del grupo simétrico $S_{24}$ generado por las operaciones $\mathcal{P}$, $\mathcal{L}$ y $\mathcal{R}$:
+    \[
+    \mathcal{G}_{PLR} = \langle \mathcal{P}, \mathcal{L}, \mathcal{R} \rangle
+    \]
+\end{definition}
+\begin{observation}
+    El grupo se escribe, de forma abreviada, como $\mathcal{G}_{PLR}=\langle \mathcal{L}, \mathcal{R} \rangle$ porque $\mathcal{P} = \mathcal{R}(\mathcal{L}\mathcal{R})^3$.
+    
+\end{observation}
+
+\begin{proposition}[Generadores involutivos]
+    Al aplicar las transformaciones dos veces, se retorna a la tríada original.
+    \[
+    \mathcal{P}^2 = \mathcal{L}^2 = \mathcal{R}^2 = id
+    \]
+    \begin{proof}
+    Basta con elevar al cuadrado las matrices generadoras. Dado que todas tienen la forma $\mathbf{M} = \begin{pmatrix} 1 & k \\ 0 & -1 \end{pmatrix}$, su cuadrado es:
+        \[
+        \mathbf{M}^2 = \begin{pmatrix} 1 & k \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 1 & k \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1\cdot1 + k\cdot0 & 1\cdot k + k\cdot(-1) \\ 0\cdot1 + (-1)\cdot0 & 0\cdot k + (-1)\cdot(-1) \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = \mathbf{I}
+        \]
+        Esto demuestra que son involuciones.
+    \end{proof}
+        
+\end{proposition}
+
+\begin{proposition}[Isomorfismo]
+        El grupo $\mathcal{G}_{PLR}$ es isomorfo al grupo diedral $D_{24}$ de orden 24. 
+        \begin{proof}
+            Se construirá un morfismo biyectivo $\phi:D_{24}\to\mathcal{G}_{PLR}$ de grupos.
+            
+            Sabemos que el grupo diedral $D_{24}$ (simetrías de un dodecágono) tiene la  presentación generada por dos reflexiones $x$ e $y$:
+            \[
+            D_{24} = \langle x, y \mid x^2 = 1, y^2 = 1, (xy)^{12} = 1 \rangle
+            \]
+            Por otra parte, en el grupo $\mathcal{G}_{PLR}$:
+            \begin{enumerate}
+                \item[i)] $\mathcal{L}$ y $\mathcal{R}$ son involuciones: $\mathbf{M}_\mathcal{L}^2 = \mathbf{I}$ y $\mathbf{M}_\mathcal{R}^2 = \mathbf{I}$.
+                \item[ii)] El producto $\mathcal{L \cdot R}$, usando sus matrices:
+                \[
+                \mathbf{M}_{\mathcal{LR}} = \begin{pmatrix} 1 & 4 \\ 0 & -1 \end{pmatrix} \begin{pmatrix} 1 & 9 \\ 0 & -1 \end{pmatrix} = \begin{pmatrix} 1 & 5 \\ 0 & 1 \end{pmatrix}
+                \]
+                Esta matriz representa una traslación de la fundamental $r \to r+5 \pmod{12}$ manteniendo el modo. Como $5$ y $12$ son coprimos, $\text{mcd}(5, 12)=1$, el elemento 5 es un generador de $\mathbb{Z}_{12}$ y el orden de $\mathbf{M}_{\mathcal{LR}}$ es $12$. Así, $(\mathbf{M}_{\mathcal{LR}})^{12} = \mathbf{I}$.
+            \end{enumerate}
+            
+           Dado que $\mathcal{L}$ y $\mathcal{R}$ satisfacen las mismas relaciones definitorias que $x$ e $y$, existe un epimorfismo (homomorfismo sobreyectivo) $\phi: D_{24} \to \langle \mathcal{L}, \mathcal{R} \rangle$ tal que $\phi(x)=\mathcal{L}$ y $\phi(y)=\mathcal{R}$.
+            
+            Para determinar la inyectividad, observamos el cardinal del grupo imagen. Como el grupo generado por $\langle \mathcal{L}, \mathcal{R} \rangle$ contiene las 12 traslaciones distintas (potencias de $\mathcal{LR}$) y sus respectivas composiciones con la inversión, su cardinalidad es al menos 24. Sabiendo que $|D_{24}|=24$, el homomorfismo $\phi$ debe ser necesariamente inyectivo y, por tanto, un isomorfismo.
+        \end{proof}
+\end{proposition}
+\begin{proposition}[Transitividad]
+    El grupo $\mathcal{G}_{PLR}$ actúa de manera transitiva sobre el conjunto $\mathcal{R}$. Esto implica que, dadas dos tríadas cualesquiera \texttt{A} y \texttt{B}, existe una única transformación en $\mathcal{G}_{PLR}$ que lleva \texttt{A} a \texttt{B}.
+    \begin{proof}
+        Se prueban existencia y unicidad.
+        Para la existencia, fijando una tríada de referencia, por ejemplo, Do Mayor, representada por el vector $\mathbf{u}_0 = (0,1)^t$. Se quiere demostrar que podemos alcanzar cualquier otra tríada objetivo $\mathbf{v} = (r,\sigma)^t$, donde $r$ es la fundamental y $\sigma$ el modo.
+        Como la operación $\tau = \mathcal{L \cdot R}$ tiene como matriz asociada $\begin{pmatrix} 1 & 5 \\ 0 & 1 \end{pmatrix}$. Aplicar $\tau$ reiteradamente $k$ veces sobre un acorde mayor equivale a sumar $5k$ a su fundamental:
+        \[
+        \tau^k \binom{0}{1} = \binom{5k}{1} \pmod{12}
+        \]
+        Dado que $\text{mcd}(5, 12)=1$, la congruencia lineal $5k \equiv r \pmod{12}$ tiene solución para cualquier $r \in \mathbb{Z}_{12}$, garantizando que se puede alcanzar cualquier tríada Mayor.
+        Análogamente, si el objetivo es una tríada Menor ($\mathbf{v} = (r,-1)^t$), basta con alcanzar primero la tríada Mayor $(r,1)^t$ y aplicar posteriormente la transformación $\mathcal{P}$ (que cambia el modo sin mover la fundamental).
+        Por tanto, la órbita de cualquier acorde bajo la acción del grupo cubre todo el conjunto $\mathcal{TR}$.
+        
+        Para ver la unicidad, se ha demostrado anteriormente que el cardinal del grupo es $|\mathcal{G}_{PLR}| = 24$ y sabemos que el cardinal del conjunto de acordes es $|\mathcal{TR}| = 24$.
+        Como en una acción transitiva de un grupo finito $G$ sobre un conjunto $X$, si $|G| = |X|$, la acción es necesariamente simplemente transitiva (o regular). Esto implica que el estabilizador de cualquier elemento es trivial (solo la identidad deja fijo el acorde).
+        En consecuencia, existe exactamente una transformación para cada par de acordes.
+    \end{proof}
+\end{proposition} 
+
+\begin{theorem}[Dualidad de Lewin]
+    Existe una relación de dualidad entre el grupo de transposiciones $(\mathcal{T},\circ)$ y el grupo neo-Riemanniano $\mathcal{G}_{PLR}$. Aunque ambos actúan sobre el mismo conjunto de acordes, sus operaciones \textbf{conmutan} entre sí:
+    \[
+    \forall T_n \in \mathcal{T}, \forall F \in \mathcal{G}_{PLR} \implies T_n(F(\texttt{A})) = F(T_n(\texttt{A}))
+    \]
+    Esta propiedad es fundamental musicalmente: asegura que las relaciones armónicas internas (como ``ir a la relativa menor'') son independientes de la tonalidad. El relativo de una transposición es la transposición del relativo.
+\end{theorem}
+
+\begin{proof}
+    Utilizaremos la representación vectorial definida en la sección anterior. Sea un acorde representado por el vector $\mathbf{v} = \binom{r}{\sigma}$.
+    
+    1. Definamos la acción de una transposición $T_n$ sobre un vector. Transponer un acorde implica sumar $n$ a su fundamental sin alterar su modo:
+    \[
+    T_n \binom{r}{\sigma} = \binom{r+n}{\sigma}
+    \]
+    
+    2. Recordemos la definición general de una transformación neo-Riemanniana $F_k$ (ya sea $\mathcal{P}$, $\mathcal{L}$ o $\mathcal{R}$) dada por su fórmula lineal:
+    \[
+    F_k \binom{r}{\sigma} = \binom{r + k\sigma}{-\sigma}
+    \]
+    
+    3. Ahora calculamos la composición en ambos órdenes para verificar si el resultado es idéntico.
+    \[
+    T_n \left( F_k \binom{r}{\sigma} \right) = T_n \binom{r + k\sigma}{-\sigma} = \binom{(r + k\sigma) + n}{-\sigma}
+    \]
+    Al aplicar $F_k$, debemos sumar $k$ multiplicado por el modo actual del vector (que es $\sigma$).
+    \[
+    F_k \left( T_n \binom{r}{\sigma} \right) = F_k \binom{r+n}{\sigma}= \binom{(r+n) + k\sigma}{-\sigma}
+    \]
+    Dado que la suma en $\mathbb{Z}_{12}$ es conmutativa y ambos vectores son idénticos, queda demostrado que cualquier operación $\mathcal{PLR}$ conmuta con cualquier transposición.
+\end{proof}
+
+
+%%%
+%%% Aquí puedo poner bastantes más resultados muy chulillos. A ver qué se cuece.
+%%%
+%%%
+\subsection{Otras transformaciones}
+Para acabar de conferir a la armonía musical, planteada como transformaciones de la teoría Neo-Riemanninana, una estructura consistente y capaz de modelar cada cambio tonal y sonoro que en ella tienen lugar se presentará a continuación un pequeño compendio de modificaciones que, a pesar de no ser tan comunes, merecen ser mencionadas y aparecen de la combinación de las transformaciones básicas $\mathcal{P,L,R}$. Es por ese motivo que no guardan un papel preponderante.
+
+\begin{definition}[$\mathcal{S}$]
+    La transformación $\mathcal{S}$ (del inglés \textit{Slide}) intercambia dos tríadas de distinto modo que comparten la tercera. 
+    Geométricamente, implica desplazar la fundamental y la quinta un semitono en la misma dirección, manteniendo la tercera fija.
+    \begin{align}\label{transf_s}
+        \mathcal{S} = \mathcal{L} \circ \mathcal{P} \circ \mathcal{R}
+    \end{align}
+\end{definition}
+
+\begin{example}
+    Partiendo de Do Mayor ($\{0, 4, 7\}$), la nota que actúa como tercera es el \texttt{mi} ($4$).
+    Manteniendo el $4$ y desplazando la fundamental ($0 \to 1$) y la quinta ($7 \to 8$), se obtiene $\{1, 4, 8\}$, que corresponde a las notas \texttt{\textbf{do}}$\sharp$, \texttt{\textbf{mi}}, \texttt{\textbf{sol}}$\sharp$. Esta es la tríada de Do$\sharp$ menor.
+    Nótese el efecto cromático deslizante: Do Mayor y Do$\sharp$ menor se sienten como acordes lejanos tonalmente, pero comparten la nota central.
+\end{example}
+
+\begin{definition}[$\mathcal{N}$]
+    La transformación $\mathcal{N}$ (del alemán \textit{Nebenverwandt}, pariente vecino) intercambia una tríada \texttt{mayor} con su subdominante \texttt{menor}, y una tríada \texttt{menor} con su dominante \texttt{mayor}.
+    En términos de conducción de voces, se conservan la fundamental (si es \texttt{mayor}) o la quinta (si es \texttt{menor}), y las otras dos notas se mueven un semitono convergiendo o divergiendo.
+    \begin{align}\label{transf_n}
+        \mathcal{N} = \mathcal{R} \circ \mathcal{L} \circ \mathcal{P}
+    \end{align}
+\end{definition}
+
+\begin{example}
+    En Do Mayor ($\{0, 4, 7\}$), la transformación $\mathcal{N}$ lleva a su subdominante \texttt{menor}.
+    Las notas que forman la tercera \texttt{menor} del acorde original ($4$ y $7$, \texttt{\textbf{mi}} y \texttt{\textbf{sol}}) se desplazan un semitono ascendente hacia $5$ (\texttt{\textbf{fa}}) y $8$ (\texttt{\textbf{la}}$\flat$). La fundamental $0$ (\texttt{\textbf{do}}) se mantiene.
+    El resultado es $\{0, 5, 8\}$ (Do, Fa, La$\flat$), que reordenado es la tríada de Fa menor ($Fm$).
+\end{example}
+
+\begin{definition}[$\mathcal{H}$]
+    La transformación $\mathcal{H}$ (polo hexatónico) conecta una tríada con su opuesto polar en el ciclo hexatónico de Cohn. Es la transformación más drástica, ya que no comparte ninguna nota común con el acorde original, pero la conducción de voces es muy suave (todas las notas se mueven un semitono en direcciones alternas).
+    \begin{align} \label{transf_h}
+        \mathcal{H} = \mathcal{L} \circ \mathcal{P} \circ \mathcal{L}
+    \end{align}
+\end{definition}
+
+\begin{example}
+    Para Do Mayor ($\{0, 4, 7\}$), la transformación $\mathcal{H}$ genera el acorde de La$\flat$ menor ($\{8, 11, 3\}$).
+    El movimiento cromático estricto:
+    \begin{itemize}
+        \item[] \texttt{\textbf{do}} ($0$) baja a \texttt{\textbf{si}} ($11$).
+        \item[] \texttt{\textbf{mi}} ($4$) baja a \texttt{\textbf{mi}}$\flat$/\texttt{\textbf{re}}$\sharp$ ($3$).
+        \item[] \texttt{\textbf{sol}} ($7$) sube a \texttt{\textbf{la}}$\flat$ ($8$).
+    \end{itemize}
+\end{example}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.5\linewidth]{Plantilla-LaTeX-TFG/images/transformations_SNH.png}
+    \caption{Ejemplo de transformaciones $\mathcal{S, N, H}$ sobre el acorde de DoM. }
+    \label{fig:transformations_SNH}
+\end{figure}
+
+\begin{observation}
+    Dado que las transformaciones $\mathcal{S,N,H}$ son, como ya he señalado, combinaciones de las transformaciones ``primarias'' ($\mathcal{P,L,R}$), también pueden escribirse de forma matricial sin más que realizar el producto en $\mathfrak{M}_2(\mathbb{R})$ indicado por las expresiones \ref{transf_s}, \ref{transf_n} o \ref{transf_h}. Por ejemplo, para \ref{transf_s}
+    \[ \mathrm{M}_{\mathcal{S}}=\mathrm{M}_{\mathcal{L}}\mathrm{M}_{\mathcal{P}}\mathrm{M}_{\mathcal{R}}=\begin{pmatrix} 1 & 13 \\ 0 & -1 \end{pmatrix}
+    \]
+\end{observation}
+
+\section{Visualización geométrica: El Tonnetz}
+
+Toda la estructura algebraica y las propiedades de grupo descritas anteriormente encuentran su representación visual en el \textit{Tonnetz} (del alemán \textit{Ton}, sonido, y \textit{Netz}, red). Originalmente concebido por Euler (1739) y refinado por Riemann, en la teoría moderna se interpreta como el grafo dual de las transformaciones $\mathcal{PLR}$.
+
+El Tonnetz es un complejo celular simplicial (un enrejado de triángulos) construido sobre el plano, donde:
+\begin{enumerate}
+    \item Los \textbf{\textit{nodos (vértices)}} representan las clases de altura $\mathbb{Z}_{12}$.
+    \item Las \textbf{\textit{aristas}} conectan notas separadas por intervalos consonantes:
+    \begin{itemize}
+        \item Eje horizontal: \texttt{5ª justa} ($7$ semitonos).
+        \item Eje diagonal izquierdo: \texttt{3ª mayor} ($4$ semitonos).
+        \item Eje diagonal derecho: \texttt{3ª menor} ($3$ semitonos).
+    \end{itemize}
+    \item Las \textbf{\textit{caras (triángulos)}} representan las tríadas. Cada triángulo conecta tres notas que forman un acorde.
+\end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    % Aquí debes poner tu imagen del Tonnetz.
+    % Sugerencia: Busca una imagen "Neo-Riemannian Tonnetz" o "Euler Tonnetz".
+    \includegraphics[width=0.6\linewidth]{Plantilla-LaTeX-TFG/images/triangle_tonnetz.png}
+    \caption{Triangulos extraídos del Tonnetz. Los triángulos apuntando hacia arriba representan acordes menores; los que apuntan hacia abajo, acordes mayores.}
+    \label{fig:tonnetz}
+\end{figure}
+
+\subsection{Las transformaciones como movimientos en el plano}
+
+La elegancia del Tonnetz reside en que convierte las operaciones algebraicas $\mathcal{P}$, $\mathcal{L}$ y $\mathcal{R}$ en movimientos geométricos simples de \textit{volteo} (flips) sobre las aristas de los triángulos.
+
+Dado un triángulo que representa una tríada:
+\begin{itemize}
+    \item La transformación $\mathcal{P}$ invierte el triángulo sobre la arista de la \texttt{5ª justa} (la arista compartida entre el Mayor y su Paralelo menor).
+    \item La transformación $\mathcal{L}$ invierte el triángulo sobre la arista de la \texttt{3ª menor} (intercambio de sensible).
+    \item La transformación $\mathcal{R}$ invierte el triángulo sobre la arista de la \texttt{3ª mayor} (relativo).
+\end{itemize}
+
+De esta forma, una progresión de acordes compleja puede visualizarse como un camino o trayectoria a través de esta red triangular. Los compositores del romanticismo tardío, como Wagner o Liszt, a menudo generaban progresiones que, si bien son difíciles de analizar con números romanos tradicionales, trazan líneas rectas o figuras compactas en el Tonnetz, revelando la lógica de conducción de voces subyacente.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=1\linewidth]{Plantilla-LaTeX-TFG/images/tonnetz.png}
+    \caption{Grafo dual de Tonnetz.}
+    \label{fig:tonnetz}
+\end{figure}
+

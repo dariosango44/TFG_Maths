@@ -1,0 +1,166 @@
+\chapter{Consonancia y disonancia}
+
+Hasta ahora, a lo largo del presente trabajo, se ha analizado la música desde una perspectiva más bien algebraica y geométrica. En este último capítulo se pretende dar respuesta a la siguiente pregunta: ¿por qué las personas percibimos ciertas relaciones entre notas como estables o ``consonantes'' y otras como tensas o ``disonantes''?
+
+Es un hecho consumado, por lo presentado a lo largo del documento, que la simplicidad entre fracciones de enteros agrada al oído humano (y también a la vista de un matemático). Sin embargo, esta afirmación no responde al porqué del gusto por lo consonante y al rechazo por lo disonante. Para satisfacer esta duda y dejar de concebir la consonancia como una propiedad mística de los números pequeños se acudirá a la física y a la biología, que a través del estudio fisiología del oído humano permiten entender el porqué de las sensaciones que generan unos y otros sonidos.
+
+Igualmente, cabe establecer una distinción preliminar fundamental. El término ``consonancia'' es a menudo ambivalente. Por un lado existe la consonancia musical o tonal, que es un concepto estético y cultural.
+Por otro lado, existe la consonancia sensorial (o tonal, en la terminología de Plomp y Levelt). Esta es una propiedad psicoacústica independiente del entrenamiento musical y se refiere a la ausencia de aspereza o ``rugosidad'' (\textit{roughness}) en el sonido. Es sobre esta última, de carácter universal y fisiológico, sobre la que se basará nuestro análisis.
+
+En resumen, se abandona la abstracción discreta para introducirse en el continuo físico. Partiendo de intuiciones de Helmholtz sobre los batimientos y culminando con el modelo formal de Plomp y Levelt (1965), veremos cómo las matemáticas no solo sirven para construir escalas, sino para modelar la propia respuesta de nuestro oído interno. Descubriremos que los ``valles'' de mínima rugosidad predichos por el análisis de funciones reales coinciden, sorprendentemente, con aquellas estructuras algebraicas que hemos deducido en los capítulos anteriores.
+
+\section{Fundamentos físico-matemáticos de la disonancia}
+
+Para cuantificar la sensación de consonancia, primero debemos modelar la interacción física de dos ondas sonoras simples.
+
+\begin{definition}[Superposición de tonos puros]
+    Sean dos tonos puros (ondas sinusoidales) de amplitud unitaria y frecuencias angulares $\omega_1 = 2\pi f_1$ y $\omega_2 = 2\pi f_2$, con $f_1 < f_2$. La señal acústica resultante $s(t)$ viene dada por la suma lineal:
+    \[
+    s(t) = \sin(\omega_1 t) + \sin(\omega_2 t)
+    \]
+\end{definition}
+
+\begin{observation}[Ecuación de los batimientos]
+    Utilizando las identidades trigonométricas de suma a producto, la señal $s(t)$ puede reescribirse como el producto de una onda portadora y una onda moduladora:
+    \[
+    s(t) = 2 \cos\left( \frac{\omega_1 - \omega_2}{2} t \right) \sin\left( \frac{\omega_1 + \omega_2}{2} t \right)
+    \]
+    Esto se interpreta físicamente como una onda de frecuencia promedio $\bar{f} = \frac{f_1+f_2}{2}$ cuya amplitud es modulada por una envolvente de frecuencia baja $\frac{|f_1-f_2|}{2}$.
+\end{observation}
+
+\begin{definition}[Batimiento]
+    Se denomina \textit{batimiento} al fenómeno de interferencia constructiva y destructiva periódica que surge de la superposición de dos ondas sinusoidales de frecuencias cercanas. Se manifiesta acústicamente como una fluctuación periódica en la intensidad (amplitud) del sonido resultante, cuya envolvente varía entre un máximo de $2$ y un mínimo de $0$.
+\end{definition}
+
+\begin{definition}[Frecuencia de batimiento]
+    Se define la \textit{frecuencia de batimiento} $f_{beat}$ como la frecuencia con la que la envolvente de amplitud alcanza un máximo (sonoridad máxima). Dado que el oído no distingue la fase (signo) de la amplitud, percibimos dos máximos por cada ciclo de la envolvente, por lo que:
+    \[
+    f_{beat} = |f_1 - f_2|
+    \]
+\end{definition}
+
+\begin{observation}
+    La percepción humana de esta señal varía drásticamente en función de $f_{beat}$:
+    \begin{itemize}
+        \item Si $f_{beat}$ es muy pequeña ($< 15$ Hz), se perciben batimientos lentos, generalmente agradables.
+        \item Si $f_{beat}$ aumenta (aprox. $20-100$ Hz), el oído no puede separar los tonos ni contar los batimientos. Se percibe una sensación de aspereza continua llamada \textbf{rugosidad}.
+    \end{itemize}
+\end{observation}
+
+Para formalizar cuándo cesa la rugosidad, necesitamos introducir un parámetro biológico que actúa como unidad de medida natural del oído.
+
+\begin{definition}[Ancho de Banda Crítico]
+    El Ancho de Banda Crítico ($CBW$, del inglés \textit{Critical Bandwidth}) se define como el rango de frecuencias dentro del cual la respuesta del oído a múltiples tonos es interferente. Matemáticamente, el $CBW$ es una función de la frecuencia central $f$, que puede aproximarse (según Zwicker y Terhardt) por:
+    \[
+    CBW(f) \approx 25 + 75(1 + 1.4(f/1000)^2)^{0.69} \quad [\text{Hz}]
+    \]
+    Aunque para propósitos teóricos en el registro central, suele aproximarse como una banda proporcional a la frecuencia.
+\end{definition}
+
+\begin{definition}[Función de Rugosidad / Disonancia]
+    Siguiendo el modelo de Plomp y Levelt, definimos la disonancia $D$ entre dos tonos puros como una función continua que depende de la diferencia de frecuencias normalizada respecto al ancho de banda crítico.
+    Sea $x = \frac{|f_1 - f_2|}{CBW(\bar{f})}$. La función de rugosidad estándar se modela como:
+    \[
+    D(x) = x \cdot (e^{-a x} - e^{-b x})
+    \]
+    donde $a \approx 3.5$ y $b \approx 5.75$ son parámetros de ajuste experimental.
+\end{definition}
+
+\begin{observation}[Máximo de disonancia]
+    Si analizamos la función $D(x)$ mediante cálculo diferencial, encontramos que presenta un máximo local único. Derivando e igualando a cero, se observa que la máxima rugosidad (disonancia sensorial máxima) ocurre cuando la diferencia de frecuencias es aproximadamente el $25\%$ del ancho de banda crítico ($x \approx 0.25$).
+\end{observation}
+
+\begin{definition}[Consonancia Sensorial]
+    Finalmente, definimos la consonancia sensorial $C$ entre dos tonos puros simplemente como el complemento de la rugosidad. Para un intervalo dado:
+    \[
+    C(x) = 1 - \frac{D(x)}{\max(D)}
+    \]
+    Para tonos complejos (con múltiples armónicos), la consonancia se define como la ausencia de rugosidad global, calculada sumando las interacciones $D(x)$ de todos los pares de armónicos presentes.
+\end{definition}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{El fenómeno de los batimientos y la rugosidad}
+
+La base física de la disonancia reside en la interferencia entre ondas sonoras. Cuando dos tonos puros (ondas sinusoidales) de frecuencias $f_1$ y $f_2$ suenan simultáneamente, y sus frecuencias son muy cercanas, se produce el fenómeno de los \textit{batimientos} (beats). La amplitud de la onda resultante oscila con una frecuencia igual a la diferencia $|f_1 - f_2|$.
+
+Helmholtz (1863) fue el primero en sugerir que la disonancia sensorial es el resultado de batimientos rápidos que el oído no puede resolver individualmente, generando una sensación de ``rugosidad'' (\textit{roughness}).
+
+\begin{itemize}
+    \item Si $|f_1 - f_2|$ es muy pequeña (ej. 1 Hz), escuchamos un trémolo lento y agradable.
+    \item A medida que la diferencia aumenta (aprox. 30-40 Hz), los batimientos se vuelven indistinguibles y se perciben como un sonido áspero o rugoso. Esto es la \textbf{disonancia máxima}.
+    \item Si la diferencia sigue aumentando hasta superar el llamado \textit{ancho de banda crítico}, la rugosidad desaparece y los dos tonos se perciben como suaves y separados.
+\end{itemize}
+
+\section{El modelo de Plomp y Levelt}
+
+En 1965, R. Plomp y W.J.M. Levelt formalizaron esta intuición realizando experimentos psicoacústicos masivos. Determinaron que la percepción de la disonancia depende directamente del ancho de banda crítico ($CBW$) del oído, que varía según el registro.
+
+Propusieron una curva universal para describir la disonancia $d$ entre dos tonos puros en función de su separación frecuencial.
+
+\subsection{Modelización matemática de la curva}
+
+Sea $x$ la diferencia de frecuencias normalizada respecto al ancho de banda crítico. Plomp y Levelt propusieron modelar la curva de disonancia estándar mediante una función de la forma:
+\[
+d(x) = e^{-ax} - e^{-bx}
+\]
+donde $x$ representa la distancia frecuencial y los parámetros empíricos que mejor ajustan los datos experimentales son aproximadamente:
+\[
+d(f) = \frac{f}{f_{cb}} \cdot e^{1 - \frac{f}{f_{cb}}} \quad \text{(Simplificación común)}
+\]
+O la forma paramétrica estándar usada para reproducir sus gráficas:
+\[
+g(x) = x(e^{-3.5x} - e^{-5.75x})
+\]
+Esta función presenta un comportamiento característico:
+\begin{enumerate}
+    \item Comienza en 0 (unísono, consonancia perfecta).
+    \item Crece rápidamente hasta alcanzar su \textbf{máximo de disonancia} cuando la separación es aproximadamente el $25\%$ del ancho de banda crítico.
+    \item Decrece asintóticamente hacia 0 a medida que los tonos se separan.
+\end{enumerate}
+
+\begin{figure}[h!]
+    \centering
+    % Aquí iría la imagen de la curva simple (la que parece una montaña rusa pequeña)
+    % \includegraphics{curva_plomp_simple.png}
+    \caption{Curva de disonancia sensorial para dos tonos puros. El eje X representa la diferencia de frecuencia, el eje Y la rugosidad percibida.}
+\end{figure}
+
+\section{Tonos complejos y la justificación de la escala}
+
+La verdadera potencia del modelo surge cuando no consideramos tonos puros, sino \textbf{tonos complejos} (instrumentos reales). Un tono musical con frecuencia fundamental $f$ está compuesto por una serie de armónicos $f, 2f, 3f, 4f \dots$.
+
+Cuando suenan dos notas simultáneas (un intervalo), la disonancia total no es solo el choque entre sus fundamentales, sino la suma de las rugosidades producidas por \textbf{cada par de armónicos} que caen dentro de un ancho de banda crítico.
+
+Sea $F$ la frecuencia fundamental y $\alpha > 1$ la razón del intervalo (por ejemplo, $\alpha=1.5$ para una quinta). La disonancia total $D(\alpha)$ se calcula sumando las contribuciones de los primeros $N$ armónicos:
+\[
+D(\alpha) = \sum_{n=1}^{N} \sum_{m=1}^{N} d(|n \cdot F - m \cdot (\alpha F)|)
+\]
+Donde $d(\cdot)$ es la función de rugosidad para tonos puros definida anteriormente.
+
+\subsection{El ``gráfico fantástico''}
+
+Si graficamos esta función $D(\alpha)$ variando $\alpha$ continuamente desde el unísono (1:1) hasta la octava (2:1), obtenemos el famoso gráfico de Plomp y Levelt.
+
+\begin{figure}[h!]
+    \centering
+    % BUSCA LA IMAGEN: "Plomp Levelt consonance curve harmonics"
+    % Es esa gráfica con muchos picos y valles.
+    \includegraphics[width=0.9\linewidth]{Plantilla-LaTeX-TFG/images/plomp_levelt_curve.png}
+    \caption{Curva de consonancia para dos tonos complejos con 6 armónicos. Los mínimos locales (valles) corresponden a las razones de frecuencia simples.}
+    \label{fig:plomp_levelt}
+\end{figure}
+
+Lo sorprendente de este gráfico, obtenido puramente desde la acústica y la fisiología, es dónde aparecen los \textbf{mínimos locales} (valles de consonancia):
+\begin{itemize}
+    \item El mínimo global está en 1:1 (Unísono).
+    \item El siguiente valle más profundo está en \textbf{3:2} (Quinta Justa).
+    \item Le siguen \textbf{4:3} (Cuarta Justa), \textbf{5:3} (Sexta Mayor), \textbf{5:4} (Tercera Mayor).
+\end{itemize}
+
+\subsubsection{Conexión con el sistema temperado}
+Este resultado cierra el círculo de nuestro trabajo. Los intervalos que el álgebra (fracciones continuas, semigrupos) señalaba como estructurales, coinciden con los intervalos que la biología (ancho de banda crítico) señala como placenteros (mínimos de rugosidad).
+
+El sistema de 12 tonos es tan exitoso porque sus notas (aunque ligeramente desafinadas en el temperamento igual) caen consistentemente dentro de estos ``valles'' de consonancia sensorial, evitando los picos de rugosidad. Si dividiéramos la octava en 10 partes, caeríamos constantemente en zonas de alta rugosidad, produciendo una música sensorialmente áspera.
